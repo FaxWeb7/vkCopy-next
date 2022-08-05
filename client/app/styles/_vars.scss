@@ -1,0 +1,29 @@
+//* Container & BreakPoints
+$containerWidth: 1280;
+$containerYPadding: 40;
+$containerXPadding: 20;
+
+//* Colors
+$white: #C4C4C4;
+$black: #101014;
+$grey: #222222;
+$lightGrey: #67707A;
+$green: #35CB79;
+$bodyBackground: $black;
+
+
+//* Fonts
+%font{
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  color: white;
+}
+
+//? Animations
+//* Fade
+@keyframes fade {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}

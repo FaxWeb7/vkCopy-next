@@ -37,6 +37,12 @@
       "@/types/*": [
         "types/*"
       ],
+      "@/constants/*": [
+        "constants/*"
+      ],
+      "@/styles/*": [
+        "styles/*"
+      ],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
