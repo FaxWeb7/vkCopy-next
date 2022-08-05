@@ -1,4 +1,7 @@
-const Registration = () => {
+import { FC } from "react";
+import styles from './registration.module.scss'
+
+const Registration: FC = () => {
   return (
     <div>
       Registration

@@ -1,8 +1,12 @@
-const Loading = () => {
+import { FC } from "react";
+import styles from './loading.module.scss'
+
+const Loading: FC = () => {
   return (
-    <div>
-      Loading...
-    </div>
+    <section className={styles.loading}>
+      <span className={styles["loading__anim"]}></span>
+      <span className={styles.loadWords}>Загрузка...</span>
+    </section>
   );
 }
 
