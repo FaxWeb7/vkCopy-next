@@ -1,0 +1,25 @@
+{
+  "name": "personal-portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Artemka0-7/personal-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Artemka0-7/personal-portfolio/issues"
+  },
+  "homepage": "https://github.com/Artemka0-7/personal-portfolio#readme",
+  "dependencies": {
+    "concurrently": "^7.2.1"
+  }
+}
