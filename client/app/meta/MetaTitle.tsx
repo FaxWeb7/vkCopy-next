@@ -3,9 +3,10 @@ import Head from "next/head";
 import { FC } from "react";
 
 const MetaTitle: FC<ITitle> = ({ title }) => {
+  const newTitle = `${title} | ВКонтакте`
   return (
     <Head>
-      <title>{title} | ВКонтакте</title>
+      <title>{newTitle}</title>
     </Head>
   );
 }
