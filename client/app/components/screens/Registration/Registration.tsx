@@ -26,7 +26,6 @@ const Registration: FC = () => {
 
   const RegistrationSubmit = async ({ email, password, firstName, lastName }: IResponseRegistration): Promise<void> => {
     const registration = await store.registration(email, password, firstName, lastName)
-    console.log(registration)
     if (registration === undefined){
       router.push('/profile')
     }

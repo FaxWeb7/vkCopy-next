@@ -17,34 +17,11 @@ const Main: FC = () => {
     }
   }, [])
 
-  if (store.isLoading){return( <Loading /> )}
+  if (store.isLoading){return <Loading />}
 
   if (!store.isAuth){return <Push href="/authorization" />}
 
   return <Push href='/profile' />
 }
 
-
 export default observer(Main);
-
-// const Main: FC = () => {
-//   const {store} = useContext(Context)
-//   const router = useRouter()
-
-//   useEffect(() => {
-//     if (localStorage.getItem("token")) {
-//       store.checkAuth()
-//     }
-//   }, [])
-
-//   if (store.isLoading){return( <Loading /> )}
-
-//   if (!store.isAuth){return( 
-//     <>
-//       <MetaTitle title='Вход' />
-//       <Auth />
-//     </>
-//   )}
-
-//   return <Push href='/profile' />
-// }
