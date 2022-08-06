@@ -1,8 +1,7 @@
-import { ITitle } from "@/types/interfaces";
 import Head from "next/head";
 import { FC } from "react";
 
-const MetaTitle: FC<ITitle> = ({ title }) => {
+const MetaTitle: FC<{title: string}> = ({ title }) => {
   const newTitle = `${title} | ВКонтакте`
   return (
     <Head>

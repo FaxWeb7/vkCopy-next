@@ -1,7 +1,7 @@
-import { IUser } from "../models/IUser";
+import { IUser } from "@/types/interfaces";
 import {makeAutoObservable} from 'mobx'
 import AuthService from "../service/AuthService";
-import { AuthResponse } from "../models/response/AuthResponse";
+import { AuthResponse } from "@/types/interfaces";
 import axios from "axios";
 import { API_URL } from "@/constants/constants"; 
 

@@ -1,14 +1,13 @@
 import { useRouter } from "next/router";
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import styles from "./registration.module.scss";
 import { Context } from "../../../../pages/_app";
 import { useForm } from "react-hook-form";
 import { IResponseRegistration } from "@/types/interfaces";
 import {observer} from 'mobx-react-lite'
+import Push from "@/components/ui/Push/Push";
 
 const Registration: FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const { store } = useContext(Context);
   const router = useRouter();
   const {
@@ -21,6 +20,18 @@ const Registration: FC = () => {
   const onSubmit = ({ email, password, firstName, lastName }: IResponseRegistration) => {
     store.registration(email, password, firstName, lastName)
     router.push('/')
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      store.checkAuth()
+    }
+  }, [])
+
+  if (store.isAuth) {
+    return(
+      <Push href="/" />
+    )
   }
 
   return (
