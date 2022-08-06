@@ -8,6 +8,7 @@ import {observer} from 'mobx-react-lite'
 import Push from "@/components/ui/Push/Push";
 
 const Registration: FC = () => {
+  const [error, setError] = useState<string>('')
   const { store } = useContext(Context);
   const router = useRouter();
   const {
@@ -17,20 +18,31 @@ const Registration: FC = () => {
     reset,
   } = useForm({ mode: "onBlur" });
 
-  const onSubmit = ({ email, password, firstName, lastName }: IResponseRegistration) => {
-    store.registration(email, password, firstName, lastName)
-    router.push('/')
-  }
-
   useEffect(() => {
     if (localStorage.getItem("token")) {
       store.checkAuth()
     }
   }, [])
 
+  const RegistrationSubmit = async ({ email, password, firstName, lastName }: IResponseRegistration): Promise<void> => {
+    const registration = await store.registration(email, password, firstName, lastName)
+    console.log(registration)
+    if (registration === undefined){
+      router.push('/profile')
+    }
+    if (registration !== undefined){
+      switch (registration){
+        case 'Пользователь уже существует!':
+          setError(registration)
+          setTimeout(() => setError(''), 2500)
+          break
+      }
+    }
+  }
+
   if (store.isAuth) {
     return(
-      <Push href="/" />
+      <Push href="/profile" />
     )
   }
 
@@ -38,7 +50,7 @@ const Registration: FC = () => {
     <section className={styles["auth"]}>
       <div className={styles["auth-container"]}>
         <div className={styles["auth__inner"]}>
-          <form onSubmit={handleSubmit(onSubmit)} className={styles["auth__form"]}>
+          <form onSubmit={handleSubmit(RegistrationSubmit)} className={styles["auth__form"]}>
             <svg
               fill="none"
               height="48"
@@ -95,6 +107,9 @@ const Registration: FC = () => {
             {errors?.email && (
               <p className="form-err-text">{`${errors?.email?.message}`}</p>
             )}
+            {error === 'Пользователь уже существует!' && (
+              <p className="form-err-text">{error}</p>
+            )}
             <input
               className={styles["auth__form-input"]}
               type="password"
@@ -115,7 +130,7 @@ const Registration: FC = () => {
             </button>
             <div className={styles["auth__form-footer"]}>
               <span>Уже есть учетная запись?</span>
-              <a href="/" className={styles["auth__form-registr"]}>
+              <a href="/authorization" className={styles["auth__form-registr"]}>
                 Войти
               </a>
             </div>

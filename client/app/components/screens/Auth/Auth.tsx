@@ -1,22 +1,62 @@
 import { Context } from "../../../../pages/_app";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { FC } from "react";
 import { useState } from "react";
 import styles from "./auth.module.scss";
 import {observer} from 'mobx-react-lite'
 import { useRouter } from "next/router";
+import Push from "@/components/ui/Push/Push";
+import { useForm } from "react-hook-form";
+import { IResponseLogin } from "@/types/interfaces";
 
 const Auth: FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>('')
   const { store } = useContext(Context);
   const router = useRouter()
+  const {
+    register,
+    formState: { errors, isValid },
+    handleSubmit,
+    reset,
+  } = useForm({ mode: "onChange" });
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      store.checkAuth()
+    }
+  }, [])
+
+  if (store.isAuth) {
+    return(
+      <Push href="/profile" />
+    )
+  }
+
+  const Login = async ({ email, password }: IResponseLogin): Promise<void> => {
+    const login = await store.login(email, password)
+    if (login === undefined){
+      router.push('/profile')
+    }
+    if (login !== undefined){
+      switch (login){
+        case 'Пароль введён неверно':
+          setError(login);
+          setTimeout(() => setError(''), 2500);
+          break;
+        case 'Пользователь ещё не зарегистрирован':
+          setError(login);
+          setTimeout(() => setError(''), 2500);
+          break;
+      }
+    }
+  }
+  
 
   return (
     <section className={styles["auth"]}>
       <div className={styles["auth-container"]}>
         <div className={styles["auth__inner"]}>
-          <div className={styles["auth__form"]}>
+          <form onSubmit={handleSubmit(Login)} className={styles["auth__form"]}>
             <svg
               fill="none"
               height="48"
@@ -35,28 +75,42 @@ const Auth: FC = () => {
             <h1 className={styles["auth__form-title"]}>Вход ВКонтакте</h1>
             <input
               className={styles["auth__form-input"]}
-              style={email !== "" ? { color: "white" } : { color: "#75756A" }}
               type="text"
-              value={email}
               placeholder="Электронная почта"
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email", {
+                required: "Поле обязательно к заполнению!",
+                pattern: {
+                  value:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                  message: "Электронный адрес введён некорректно",
+                },
+              })}
             />
+            {errors?.email && (
+              <p className="form-err-text">{`${errors?.email?.message}`}</p>
+            )}
+            {error === 'Пользователь ещё не зарегистрирован' && (
+                  <p className="form-err-text">{error}</p>
+              )
+            }
             <input
               className={styles["auth__form-input"]}
-              style={
-                password !== "" ? { color: "white" } : { color: "#75756A" }
-              }
-              value={password}
               type="password"
               placeholder="Пароль"
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password", {
+                required: "Поле обязательно к заполнению!"
+              })}
             />
+            {errors?.password && (
+              <p className="form-err-text">{`${errors?.password?.message}`}</p>
+            )}
+            {error === 'Пароль введён неверно' && (
+              <p className="form-err-text">{error}</p>
+            )}
             <button
               className={styles["auth__form-btn"]}
-              onClick={() => {
-                store.login(email, password);
-                router.push('/')
-              }}
+              type="submit"
+              disabled={!isValid}
             >
               Войти
             </button>
@@ -66,7 +120,7 @@ const Auth: FC = () => {
                 Зарегистрироваться
               </a>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </section>

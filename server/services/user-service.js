@@ -10,7 +10,7 @@ class UserService {
   async registration(email, password, firstName, lastName) {
     const candidate = await Users.findOne({email})
     if (candidate) {
-      throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует!`)
+      throw ApiError.BadRequest(`Пользователь уже существует!`)
     }
 
     const hashPassword = await bcrypt.hash(password, 3)
@@ -38,7 +38,7 @@ class UserService {
   async login (email, password){
     const user = await Users.findOne({email: email})
     if (!user){
-      throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} ещё не зарегистрирован`)
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
     }
     const isPasswordEquals = await bcrypt.compare(password, user.password)
     if (!isPasswordEquals) {

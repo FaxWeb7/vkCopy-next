@@ -1,10 +1,3 @@
-export interface IResponseRegistration{
-  firstName?: any,
-  lastName?: any,
-  email?: any,
-  password?: any
-}
-
 export interface IUser {
   email: string;
   firstName: string;
@@ -17,4 +10,16 @@ export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   user: IUser
+}
+
+export interface IResponseRegistration{
+  firstName?: string | any,
+  lastName?: string | any,
+  email?: string | any,
+  password?: string | any
+}
+
+export interface IResponseLogin{
+  email?: string | any,
+  password?: string | any
 }

@@ -32,8 +32,9 @@ export default class Store {
       localStorage.setItem('token', response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user)
-    } catch(e){
-      console.log(e)
+    } catch(e: any){
+      console.log(e.response.data.message)
+      return e.response.data.message
     }
   }
 
@@ -43,8 +44,9 @@ export default class Store {
       localStorage.setItem('token', response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user)
-    } catch(e){
+    } catch(e: any){
       console.log(e)
+      return e.response.data.message
     }
   }
 

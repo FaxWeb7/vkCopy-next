@@ -21,7 +21,7 @@ const Profile = () => {
 
   if (!store.isAuth) {
     return(
-      <Push href="/" />
+      <Push href="/authorization" />
     )
   }
 
