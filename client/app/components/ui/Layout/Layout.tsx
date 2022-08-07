@@ -5,14 +5,14 @@ import NavBar from '../NavBar/NavBar';
 const Layout: FC<{children: ReactNode}> = ({ children }) => {
   return (
     <div className="wrapper">
-      <header className="header">
-        <Header />
-      </header>
-      <nav className='nav'>
-        <NavBar />
-      </nav>
-      <div className="main">
-        {children}
+      <Header />
+      <div className="container">
+        <div className="content">
+          <NavBar />
+          <div className="main">
+            {children}
+          </div>
+        </div>
       </div>
     </div>
   )

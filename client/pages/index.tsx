@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import Push from '@/components/ui/Push/Push';
 import MetaTitle from 'meta/MetaTitle';
 
-const Main: FC = () => {
+const Main: FC<{withoutNav: boolean}> = ({ withoutNav }) => {
   const {store} = useContext(Context)
   const router = useRouter()
 
@@ -22,6 +22,14 @@ const Main: FC = () => {
   if (!store.isAuth){return <Push href="/authorization" />}
 
   return <Push href='/profile' />
+}
+
+export const getStaticProps = async () => {
+  return{
+    props: {
+      withoutNav: true
+    }
+  }
 }
 
 export default observer(Main);

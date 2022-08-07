@@ -4,7 +4,7 @@ import MetaRefresh from 'meta/MetaRefresh';
 import MetaTitle from 'meta/MetaTitle';
 import { FC } from 'react';
 
-const Error: FC = () => {
+const Error: FC<{withoutNav: boolean}> = ({ withoutNav }) => {
   return (
     <>
       <MetaTitle title="Ошибка 404" />
@@ -12,6 +12,14 @@ const Error: FC = () => {
       <Error404 />
     </>
   )
+}
+
+export const getStaticProps = async () => {
+  return{
+    props: {
+      withoutNav: true
+    }
+  }
 }
 
 export default Error;

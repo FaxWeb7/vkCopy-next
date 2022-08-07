@@ -1,0 +1,83 @@
+@import '../../../styles/vars';
+
+.navbar{
+  .container {
+    width: 100%;
+    max-width: $containerWidth + px;
+    margin: 0 auto;
+    padding: $containerYPadding + px $containerXPadding + px;
+    display: flex;
+
+  }
+  .inner{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-right: auto;
+    gap: 16px;
+  }
+  .profile{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    background-color: $grey;
+    border-radius: 10px;
+    padding: 10px 12px;
+    width: 100%;
+    position: relative;
+    &-avatar{
+      border-radius: 50%;
+      width: 30px;
+    }
+    &-btn{
+      font-size: 20px;
+      margin-left: 3px;
+      cursor: pointer;
+      transition: all .5s ease;
+      &-active{
+        transform: rotate(180deg);
+      }
+    }
+    &-exit{
+      position: absolute;
+      right: -75px;
+      background-color: #3b3c41;
+      border-radius: 10px;
+      padding: 7px 15px;
+      color: #fff;
+      opacity: 0;
+      transition: all .5s ease;
+      &-active{
+        opacity: 1;
+      }
+    }
+  }
+  .link-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    // gap: 17px;
+    padding: 10px 15px;
+    background-color: $grey;
+    border-radius: 12px;
+    width: 100%;
+  }
+  .list-item{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px; 
+    padding: 10px;
+    &.active{
+      background-color: #3b3c41;
+      border-radius: 10px;
+      width: 100%;
+    }
+  }
+  .item-text{
+    color: #9EB0C4;
+  }
+}

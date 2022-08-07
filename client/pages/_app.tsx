@@ -4,6 +4,7 @@ import Store from '@/store/store';
 import MainHead from 'meta/MainHead';
 import '../app/styles/global.scss'
 import Layout from '@/components/ui/Layout/Layout';
+import MinLayout from '@/components/ui/Layout/MinLayout';
 
 const store = new Store();
 export const Context = createContext<{store: Store}>({store})
@@ -13,11 +14,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
       <Context.Provider value={{store}}>
         <MainHead />
-        <div className="wrapper">
-          <div className="main">
-            <Component {...pageProps} />
-          </div>
-        </div>
+        <MinLayout>
+          <Component {...pageProps} />
+        </MinLayout>
       </Context.Provider>
     )
   }

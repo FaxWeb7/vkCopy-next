@@ -23,3 +23,9 @@ export interface IResponseLogin{
   email?: string | any,
   password?: string | any
 }
+
+export interface INavLInk {
+  img: any,
+  title: string,
+  link: string
+}
