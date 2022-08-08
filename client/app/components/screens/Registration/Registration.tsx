@@ -1,15 +1,19 @@
 import { useRouter } from "next/router";
-import { FC, useContext, useEffect, useState } from "react";
+import { EffectCallback, FC, useContext, useEffect, useState } from "react";
 import styles from "./registration.module.scss";
 import { Context } from "../../../../pages/_app";
 import { useForm } from "react-hook-form";
 import { IResponseRegistration } from "@/types/interfaces";
+import { MdExpandMore } from 'react-icons/md'
 import {observer} from 'mobx-react-lite'
 import Push from "@/components/ui/Push/Push";
 import { APP_URL } from "@/constants/constants";
 
 const Registration: FC = () => {
   const [error, setError] = useState<string>('')
+  const [fileReader, setFileReader] = useState<any>()
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [avatar, setAvatar] = useState<string>(`${APP_URL}/common/defaultAvatar.jpg`)
   const { store } = useContext(Context);
   const router = useRouter();
   const {
@@ -20,13 +24,23 @@ const Registration: FC = () => {
   } = useForm({ mode: "onBlur" });
 
   useEffect(() => {
+    setFileReader(new FileReader())
     if (localStorage.getItem("token")) {
       store.checkAuth()
     }
   }, [])
 
+  const handleOnChange = async (event: any) => {
+    event.preventDefault();
+    const file = await event.target.files[0];
+    await fileReader.readAsDataURL(file);
+    fileReader.onload = function(e: any) {
+      setAvatar(fileReader.result)
+    }
+  };
+
   const RegistrationSubmit = async ({ email, password, firstName, lastName }: IResponseRegistration): Promise<void> => {
-    const registration = await store.registration(email, password, firstName, lastName)
+    const registration = await store.registration(email, password, firstName, lastName, avatar)
     if (registration === undefined){
       router.push('/profile')
     }
@@ -39,6 +53,7 @@ const Registration: FC = () => {
       }
     }
   }
+
 
   if (store.isAuth) {
     return(
@@ -55,28 +70,6 @@ const Registration: FC = () => {
             <h1 className={styles["auth__form-title"]}>
               Регистрация ВКонтакте
             </h1>
-            <input
-              className={styles["auth__form-input"]}
-              type="text"
-              placeholder="Имя"
-              {...register("firstName", {
-                required: "Поле обязательно к заполнению!",
-              })}
-            />
-            {errors?.firstName && (
-              <p className="form-err-text">{`${errors?.firstName?.message}`}</p>
-            )}
-            <input
-              className={styles["auth__form-input"]}
-              type="text"
-              placeholder="Фамилия"
-              {...register("lastName", {
-                required: "Поле обязательно к заполнению!",
-              })}
-            />
-            {errors?.lastName && (
-              <p className="form-err-text">{`${errors?.lastName?.message}`}</p>
-            )}
             <input
               className={styles["auth__form-input"]}
               type="text"
@@ -107,6 +100,47 @@ const Registration: FC = () => {
             {errors?.password && (
               <p className="form-err-text">{`${errors?.password?.message}`}</p>
             )}
+            <input
+              className={styles["auth__form-input"]}
+              type="text"
+              placeholder="Имя"
+              {...register("firstName", {
+                required: "Поле обязательно к заполнению!",
+              })}
+            />
+            {errors?.firstName && (
+              <p className="form-err-text">{`${errors?.firstName?.message}`}</p>
+            )}
+            <input
+              className={styles["auth__form-input"]}
+              type="text"
+              id="file"
+              placeholder="Фамилия"
+              {...register("lastName", {
+                required: "Поле обязательно к заполнению!",
+              })}
+            />
+            {errors?.lastName && (
+              <p className="form-err-text">{`${errors?.lastName?.message}`}</p>
+            )}
+            {/* <div className={`${styles["auth__form-input"]} ${styles["avatar"]}`} {...register("avatarPath")}>
+              <h4>Выберите аватарку --{">"}</h4>
+              <MdExpandMore className={isOpen ? `${styles['auth__form-more']} ${styles['active']}` : styles['auth__form-more']} onClick={() => setIsOpen(!isOpen)} />
+            </div>
+            {isOpen && (
+              <ul className={styles['auth__form-avatarlist']}>
+
+              </ul>
+            )} */}
+            <div className={styles['auth__form-avatar-wrapper']}>
+              <span className={`${styles["auth__form-span"]}`}>Выберите аватарку</span>
+              <input
+                className={`${styles["auth__form-input"]} ${styles["avatar"]}`}
+                type="file"
+                placeholder="Выберите аватарку"
+                onChange={(e) => handleOnChange(e)}
+              />
+            </div>
             <button
               className={styles["auth__form-btn"]}
               type="submit"

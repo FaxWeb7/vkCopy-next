@@ -1,14 +1,7 @@
 @import '../../../styles/vars';
 
 .navbar{
-  .container {
-    width: 100%;
-    max-width: $containerWidth + px;
-    margin: 0 auto;
-    padding: $containerYPadding + px $containerXPadding + px;
-    display: flex;
-
-  }
+  padding-top: 20px;
   .inner{
     display: flex;
     flex-direction: column;

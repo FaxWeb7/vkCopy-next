@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { API_URL } from '@/constants/constants';
-import { AuthResponse } from '@/models/response/AuthResponse';
+import { AuthResponse } from '@/types/interfaces';
 
 
 const $api = axios.create({

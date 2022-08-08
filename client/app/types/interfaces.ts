@@ -2,6 +2,7 @@ export interface IUser {
   email: string;
   firstName: string;
   lastName: string;
+  avatarPath: string;
   id: string;
   isActivated: boolean;
 }
@@ -16,7 +17,8 @@ export interface IResponseRegistration{
   firstName?: string | any,
   lastName?: string | any,
   email?: string | any,
-  password?: string | any
+  password?: string | any,
+  avatarPath?: string | any
 }
 
 export interface IResponseLogin{
