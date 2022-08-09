@@ -1,0 +1,66 @@
+@import '../../../styles/vars';
+
+.profile{
+  .inner{
+    display: flex;
+    padding-left: 20px;
+  }
+  .about{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    &-avatar{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: $grey;
+    }
+    &-users{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 10px;
+      background-color: $grey;
+      padding: 15px;
+      padding-top: 12px;
+      border-radius: 10px;
+    }
+  }
+  .avatar{
+    &-img{
+      width: 250px;
+      border-radius: 10px;
+    }
+    &-btn{
+      background-color: $btnGrey;
+      color: #fff;
+      padding: 6px 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all .3s ease;
+      &:hover{
+        background-color: $btnLightGrey;
+      }
+    }
+  }
+  .users{
+    &-list{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 10px;
+      grid-row-gap: 10px;
+    }
+    &-item{
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
