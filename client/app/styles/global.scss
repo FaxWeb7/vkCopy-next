@@ -61,3 +61,17 @@ body{
 .header_header__esf5k .container{
   padding-top: 15px;
 }
+
+.line{
+  width: 100%;
+  height: 1px;
+  background-color: $btnLightGrey;
+}
+
+.line-up{
+  width: 1px;
+  height: 73px;
+  background-color: $btnLightGrey;
+  margin-top: -35px;
+  margin-bottom: -40px;
+}
