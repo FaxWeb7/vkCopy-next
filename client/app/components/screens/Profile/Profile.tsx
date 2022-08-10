@@ -66,7 +66,7 @@ const Profile = () => {
             <h2 className={styles['posts-title']}>Все посты</h2>
             <div className={styles['posts-list']}>
               {Posts.map(({ link, avatarPath, firstName, lastName, time, text, image }, value): any => (
-                <Post link={link} avatarPath={avatarPath} firstName={firstName} lastName={lastName} time={time} text={text} image={image}/>
+                <Post key={value} link={link} avatarPath={avatarPath} firstName={firstName} lastName={lastName} time={time} text={text} image={image}/>
               ))}
             </div>
           </div>
