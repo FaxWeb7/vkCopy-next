@@ -1,60 +1,98 @@
+import Loading from "@/components/ui/Loading/Loading";
 import Push from "@/components/ui/Push/Push";
 import { APP_URL } from "@/constants/constants";
+import UserService from "@/service/UserService";
+import { IUser } from "@/types/interfaces";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { useEffect } from "react";
 import { Context } from "../../../../pages/_app";
 import Post from "./Post/Post";
 import PostForm from "./PostForm/PostForm";
 import { Posts } from "./Posts";
 import styles from './profile.module.scss'
-import { Users } from "./Users";
 
-const Profile = () => {
+const Profile: FC = () => {
   const { store } = useContext(Context);
   const [isMore, setIsMore] = useState<boolean>(false)
+  const [fileReader, setFileReader] = useState<any>()
+  const [users, setUsers] = useState<IUser[]>([])
+  const [submitActive, setSubmitActive] = useState<boolean>(false)
+  const [avatar, setAvatar] = useState<string>(`${APP_URL}/common/defaultAvatar.jpg`)
   const router = useRouter()
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("token")) {
-  //     store.checkAuth()
-  //   }
-  // }, [])
+  useEffect(() => {
+    getUsers()
+    setFileReader(new FileReader())
+    if (localStorage.getItem("token")) {
+      store.checkAuth()
+    }
+  }, [])
 
-  // if (!store.isAuth) {
-  //   return(
-  //     <Push href="/authorization" />
-  //   )
-  // }
+  const getUsers = async () => {
+    try{
+      const response = await UserService.fetchUsers();
+      setUsers(response.data)
+    } catch(e){
+      console.log(e)
+    }
+  }
+
+  const handleOnChange = async (event: any): Promise<void> => {
+    event.preventDefault();
+    const file = await event.target.files[0];
+    await fileReader.readAsDataURL(file);
+    fileReader.onload = function(e: any) {
+      setAvatar(fileReader.result)
+      setSubmitActive(true)
+    }
+  };
+
+  const handleChangeAvatar = async (): Promise<void> => {
+    await store.changeAvatar(router.query.id, avatar)
+    setSubmitActive(false)
+    router.push(`/profile/${store.user.id}`)
+  }
+
+  if (!store.isAuth) {
+    return(
+      <Push href="/authorization" />
+    )
+  }
 
   return (
     <section className={styles.profile}>
         <div className={styles.inner}>
           <div className={styles.about}>
             <div className={styles['about-avatar']}>
-              <img className={styles['avatar-img']} src={`${APP_URL}/avatars/defaultAvatar.jpg`} alt="avatar" />
-              <button className={styles['avatar-btn']}>Изменить аватарку</button>
+              <img className={styles['avatar-img']} src={store.user.avatarPath} alt="avatar" />
+              <div className={styles['input-wrapper']}>
+                <button className={styles['avatar-btn']}>Изменить аватарку</button>
+                <input type="file" className={styles['avatar-input']} onChange={(e) => handleOnChange(e)} />
+              </div>
+                {submitActive && <button className={styles['avatar-submit']} onClick={() => handleChangeAvatar()}>Готово</button>}
             </div>
             <div className={styles['about-users']}>
               <h2 className={styles['users-title']}>Другие пользователи</h2>
               <ul className={styles['users-list']}>
-                {Users.map(({ link, avatarPath, firstName }, value): any => {
+                {users.map(({ _id, avatarPath, firstName }, value): any => {
+                    if (_id === store.user.id) return null
                     if (value <= 14 || isMore) {
                       return (
-                        <a href={link} key={value} className={styles['users-item']}>
+                        <a href={`/users/${_id}`} key={value} className={styles['users-item']}>
                           <img src={avatarPath} className={styles['item-img']} alt="" />
                           <h2 className={styles['item-name']}>{firstName}</h2>
                         </a>
                       )
                     }
-                    })}
+                    })}<h1>Загрузка...</h1>
               </ul>
-              <h2 className={styles['users-more']} onClick={() => setIsMore(!isMore)}>{!isMore ? 'Показать больше' : 'Показать меньше'}</h2>
+              <h2 className={styles['users-more']} onClick={() => setIsMore(!isMore)}>{users.length <= 15 ? '' : !isMore ? 'Показать больше' : 'Показать меньше'}</h2>
             </div>
           </div>
           <div className={styles.content}>
             <div className={styles['content-about']}>
-              <h1 className={styles['content-about-name']}>Артем Павловский</h1>
+              <h1 className={styles['content-about-name']}>{store.user.firstName} {store.user.lastName}</h1>
               <div className="line"></div>
               <div className={styles['content-about-info']}>
                 <h2 className={styles['content-about-info-item']}>50<span> Друзей</span></h2>

@@ -33,11 +33,12 @@ app.use(
   )
 );
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: false, limit: '5000000000000mb' }));
+app.use(express.json({limit: '5000000000000mb'}));
 app.use(cookieParser());
 app.use(cors({
   credentials: true,
+  exposedHeaders: 'Set-Cookie',
   origin: process.env.CLIENT_URL
 }));
 app.use('/api', indexRoutes);

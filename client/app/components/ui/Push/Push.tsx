@@ -3,7 +3,7 @@ import { FC } from "react";
 import { useEffect } from "react";
 import Loading from "../Loading/Loading"
 
-const Push: FC<{href: string}> = ({ href }) => {
+const Push: FC<{href: any}> = ({ href }) => {
   const router = useRouter()
   useEffect(() => {
     router.push(href)

@@ -9,6 +9,7 @@ import Push from "@/components/ui/Push/Push";
 import { useForm } from "react-hook-form";
 import { IResponseLogin } from "@/types/interfaces";
 import { APP_URL } from "@/constants/constants";
+import Loading from "@/components/ui/Loading/Loading";
 
 const Auth: FC = () => {
   const [error, setError] = useState<string>('')
@@ -28,15 +29,17 @@ const Auth: FC = () => {
   }, [])
 
   if (store.isAuth) {
-    return(
-      <Push href="/profile" />
+    return (
+      <>
+        {store.user.id === 'undefined' ? <Loading /> : <Push href={`/profile/${store.user.id}`} />}
+      </>
     )
   }
 
   const Login = async ({ email, password }: IResponseLogin): Promise<void> => {
     const login = await store.login(email, password)
     if (login === undefined){
-      router.push('/profile')
+      router.push(`/profile/${store.user.id}`)
     }
     if (login !== undefined){
       switch (login){

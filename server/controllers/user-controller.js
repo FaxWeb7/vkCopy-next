@@ -69,6 +69,27 @@ class UserController {
       next(e)
     }
   };
+
+  async getUser (req, res, next) {
+    try{
+      const id = req.params.link
+      const userData = await userService.getUser(id)
+      return res.json(userData)
+    } catch (e) {
+      next(e)
+    }
+  };
+
+  async changeAvatar (req, res, next) {
+    try {
+      const id = req.params.id;
+      const {newAvatar} = req.body;
+      const userData = await userService.changeavatar(id, newAvatar)
+      return res.json(userData)
+    } catch(e){
+      next(e)
+    }
+  }
 }
 
 module.exports = new UserController();

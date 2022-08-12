@@ -4,10 +4,10 @@ import styles from "./registration.module.scss";
 import { Context } from "../../../../pages/_app";
 import { useForm } from "react-hook-form";
 import { IResponseRegistration } from "@/types/interfaces";
-import { MdExpandMore } from 'react-icons/md'
 import {observer} from 'mobx-react-lite'
 import Push from "@/components/ui/Push/Push";
 import { APP_URL } from "@/constants/constants";
+import Loading from "@/components/ui/Loading/Loading";
 
 const Registration: FC = () => {
   const [error, setError] = useState<string>('')
@@ -42,7 +42,7 @@ const Registration: FC = () => {
   const RegistrationSubmit = async ({ email, password, firstName, lastName }: IResponseRegistration): Promise<void> => {
     const registration = await store.registration(email, password, firstName, lastName, avatar)
     if (registration === undefined){
-      router.push('/profile')
+      router.push(`/users/${store.user.id}`)
     }
     if (registration !== undefined){
       switch (registration){
@@ -56,8 +56,10 @@ const Registration: FC = () => {
 
 
   if (store.isAuth) {
-    return(
-      <Push href="/profile" />
+    return (
+      <>
+        {store.user.id === 'undefined' ? <Loading /> : <Push href={`/profile/${store.user.id}`} />}
+      </>
     )
   }
 
@@ -123,15 +125,6 @@ const Registration: FC = () => {
             {errors?.lastName && (
               <p className="form-err-text">{`${errors?.lastName?.message}`}</p>
             )}
-            {/* <div className={`${styles["auth__form-input"]} ${styles["avatar"]}`} {...register("avatarPath")}>
-              <h4>Выберите аватарку --{">"}</h4>
-              <MdExpandMore className={isOpen ? `${styles['auth__form-more']} ${styles['active']}` : styles['auth__form-more']} onClick={() => setIsOpen(!isOpen)} />
-            </div>
-            {isOpen && (
-              <ul className={styles['auth__form-avatarlist']}>
-
-              </ul>
-            )} */}
             <div className={styles['auth__form-avatar-wrapper']}>
               <span className={`${styles["auth__form-span"]}`}>Выберите аватарку</span>
               <input

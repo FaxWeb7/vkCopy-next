@@ -4,6 +4,7 @@ import AuthService from "../service/AuthService";
 import { AuthResponse } from "@/types/interfaces";
 import axios from "axios";
 import { API_URL } from "@/constants/constants"; 
+import UserService from "@/service/UserService";
 
 export default class Store {
   user = {} as IUser;
@@ -33,8 +34,8 @@ export default class Store {
       this.setAuth(true);
       this.setUser(response.data.user)
     } catch(e: any){
-      console.log(e.response.data.message)
-      return e.response.data.message
+      console.log(e?.response?.data?.message)
+      return e?.response?.data?.message
     }
   }
 
@@ -45,7 +46,8 @@ export default class Store {
       this.setAuth(true);
       this.setUser(response.data.user)
     } catch(e: any){
-      return e.response.data?.message
+      console.log(e?.response?.data?.message)
+      return e?.response?.data?.message
     }
   }
 
@@ -55,22 +57,32 @@ export default class Store {
       localStorage.removeItem('token');
       this.setAuth(false);
       this.setUser({} as IUser)
-    } catch(e){
-      console.log(e)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
     }
   }
 
   async checkAuth () {
     this.setLoading(true)
     try{
-      const response = await axios.post<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
+      const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
       localStorage.setItem('token', response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user)
-    } catch(e){
-      console.log(e)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
     } finally {
       this.setLoading(false)
+    }
+  }
+
+  async changeAvatar (id: string | undefined | string[], newAvatar: string) {
+    try{
+      const response = await UserService.changeAvatar(id, newAvatar);
+      console.log(response.data)
+      this.setUser(response.data)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
     }
   }
 }

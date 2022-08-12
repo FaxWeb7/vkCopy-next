@@ -4,7 +4,7 @@
   "description": "MyFirstDescription",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon --max-http-header-size=9999990000000 server.js"
   },
   "keywords": [
     "website"

@@ -9,6 +9,7 @@ import MetaTitle from 'meta/MetaTitle';
 
 const Main: FC<{withoutNav: boolean}> = ({ withoutNav }) => {
   const {store} = useContext(Context)
+  const [id, setId] = useState('')
   const router = useRouter()
 
   useEffect(() => {
@@ -19,9 +20,19 @@ const Main: FC<{withoutNav: boolean}> = ({ withoutNav }) => {
 
   if (store.isLoading){return <Loading />}
 
-  if (!store.isAuth){return <Push href="/authorization" />}
+  if (typeof window === 'undefined'){
+    if (!store.isAuth){return <Loading />}
+  }
 
-  return <Push href='/profile' />
+  if (typeof window !== 'undefined'){
+    if (!store.isAuth){return <Push href="/authorization" />}
+  }
+
+  return (
+    <>
+      {store.user.id === 'undefined' ? <Loading /> : <Push href={`/profile/${store.user.id}`} />}
+    </>
+  )
 }
 
 export const getStaticProps = async () => {

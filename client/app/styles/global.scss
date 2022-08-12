@@ -23,7 +23,7 @@ html {
   flex-direction: column;
   min-height: 100%;
   > .container{
-    padding-top: 0;
+    padding-top: 20px;
   }
 }
 .main{
@@ -31,6 +31,11 @@ html {
 }
 .content{
   display: flex;
+  gap: 30px;
+  @media(max-width: 968px){
+    flex-direction: column;
+    height: 100%;
+  }
 }
 
 .container {

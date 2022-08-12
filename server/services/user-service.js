@@ -20,8 +20,13 @@ class UserService {
     await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
 
     const userDto = new UserDto(user)
+    const lastAvatar = userDto.avatarPath
+
+    userDto.avatarPath = `${process.env.CLIENT_URL}/common/asd.jpg`
     const tokens = tokenService.generateTokens({...userDto})
     await tokenService.saveToken(userDto.id, tokens.refreshToken)
+
+    userDto.avatarPath = lastAvatar
 
     return{ ...tokens, user: userDto }
   }
@@ -45,8 +50,13 @@ class UserService {
       throw ApiError.BadRequest("Пароль введён неверно")
     }
     const userDto = new UserDto(user)
+    const lastAvatar = userDto.avatarPath
+
+    userDto.avatarPath = `${process.env.CLIENT_URL}/common/asd.jpg`
     const tokens = tokenService.generateTokens({...userDto})
     await tokenService.saveToken(userDto.id, tokens.refreshToken)
+
+    userDto.avatarPath = lastAvatar
 
     return{ ...tokens, user: userDto }
   }
@@ -68,8 +78,13 @@ class UserService {
 
     const user = await Users.findById(userData.id)
     const userDto = new UserDto(user)
+    const lastAvatar = userDto.avatarPath
+
+    userDto.avatarPath = `${process.env.CLIENT_URL}/common/asd.jpg`
     const tokens = tokenService.generateTokens({...userDto})
     await tokenService.saveToken(userDto.id, tokens.refreshToken)
+    
+    userDto.avatarPath = lastAvatar
 
     return{ ...tokens, user: userDto }
   }
@@ -77,6 +92,19 @@ class UserService {
   async getAllUsers () {
     const users = Users.find();
     return users
+  }
+
+  async getUser (id) {
+    const user = Users.findById(id)
+    return user
+  }
+
+  async changeavatar (id, newAvatarPath) {
+    const user = await Users.findById(id)
+    user.avatarPath = newAvatarPath
+    user.save()
+    const userDto = new UserDto(user)
+    return userDto
   }
 }
 

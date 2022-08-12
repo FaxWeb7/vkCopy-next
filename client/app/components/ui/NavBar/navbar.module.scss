@@ -1,7 +1,6 @@
 @import '../../../styles/vars';
 
 .navbar{
-  padding-top: 20px;
   .inner{
     display: flex;
     flex-direction: column;
@@ -23,6 +22,7 @@
     &-avatar{
       border-radius: 50%;
       width: 30px;
+      height: 30px;
     }
     &-btn{
       font-size: 20px;
@@ -72,5 +72,18 @@
   }
   .item-text{
     color: #9EB0C4;
+  }
+  @media(max-width: 1080px){
+    .link-list{
+      padding: 4px 5px;
+    }
+    .list-item{
+      padding: 8px;
+    }
+  }
+  @media(max-width: 968px){
+    order: 1;
+    position: absolute;
+    bottom: 0;
   }
 }

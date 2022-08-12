@@ -15,7 +15,7 @@ export const PrimaryNavLinks: Array<INavLInk> = [
     <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
   </svg></>,
     title: "Друзья",
-    link: "/friends"
+    link: "/users"
   },
   {
     img: <><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#9EB0C4" className="bi bi-chat-fill" viewBox="0 0 16 16">

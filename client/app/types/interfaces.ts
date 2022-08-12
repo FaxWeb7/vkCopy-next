@@ -3,7 +3,8 @@ export interface IUser {
   firstName: string;
   lastName: string;
   avatarPath: string;
-  id: string;
+  id?: string;
+  _id?: string;
   isActivated: boolean;
 }
 

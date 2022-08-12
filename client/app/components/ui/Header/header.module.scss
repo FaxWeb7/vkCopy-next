@@ -33,6 +33,10 @@
       border: none;
       border-radius: 25px;
       padding: 6px 8px;
+      @media(max-width: 500px){
+        width: 100%;
+        margin-right: -10px;
+      }
     }
     &-button{
       position: absolute;
@@ -46,7 +50,13 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    cursor: pointer;
     gap: 6px;
+    &-title{
+      @media(max-width: 500px){
+        display: none;
+      }
+    }
     &-logo{
       font-size: 18px;
     }
