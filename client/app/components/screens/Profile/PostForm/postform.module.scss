@@ -2,21 +2,22 @@
 
 .postform{
   background-color: #1A1D20;
-  padding: 15px;
+  padding: 12px;
   border-radius: 10px;
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   .img{
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
   }
   .input{
     margin-left: 12px; 
     background-color: $grey;
     outline: none;
+    width: 100%;
     border: none;
     color: #fff;
   }

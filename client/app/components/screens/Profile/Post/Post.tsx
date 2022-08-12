@@ -1,18 +1,20 @@
 import { APP_URL } from '@/constants/constants';
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import styles from './post.module.scss'
 import { FcLike } from 'react-icons/fc'
 import { FaRegCommentAlt } from 'react-icons/fa'
+import { Context } from '../../../../../pages/_app';
 
-const Post: FC<{link: string, avatarPath: string, firstName: string, lastName: string, time: string, text: string, image?: string}> = ({link, avatarPath, firstName, lastName, time, text, image}) => {
+const Post: FC<{time: string, text: string, image?: string}> = ({ time, text, image}) => {
   const [isLikeActive, setIsLikeActive] = useState<boolean>(false)
+  const {store} = useContext(Context)
 
   return (
     <div className={styles.post}>
       <div className={styles['post-info']}>
-        <img src={avatarPath} alt="" className={styles['post-avatar']} />
+        <img src={store.user.avatarPath || `${APP_URL}/common/defaultAvatar.jpg`} alt="" className={styles['post-avatar']} />
         <div className={styles['post-info-content']}>
-          <h2 className={styles['post-name']}><a href={link}>{firstName} {lastName}</a></h2>
+          <h2 className={styles['post-name']}>{store.user.firstName} {store.user.lastName}</h2>
           <h2 className={styles['post-time']}>{time}</h2>
         </div>
       </div>

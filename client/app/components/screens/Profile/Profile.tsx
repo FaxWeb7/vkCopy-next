@@ -20,10 +20,12 @@ const Profile: FC = () => {
   const [submitActive, setSubmitActive] = useState<boolean>(false)
   const [avatar, setAvatar] = useState<string>(`${APP_URL}/common/defaultAvatar.jpg`)
   const router = useRouter()
+  
 
   useEffect(() => {
     getUsers()
     setFileReader(new FileReader())
+    store.setLoading(true)
     if (localStorage.getItem("token")) {
       store.checkAuth()
     }
@@ -41,7 +43,7 @@ const Profile: FC = () => {
   const handleOnChange = async (event: any): Promise<void> => {
     event.preventDefault();
     const file = await event.target.files[0];
-    await fileReader.readAsDataURL(file);
+    await fileReader?.readAsDataURL(file);
     fileReader.onload = function(e: any) {
       setAvatar(fileReader.result)
       setSubmitActive(true)
@@ -60,6 +62,7 @@ const Profile: FC = () => {
     )
   }
 
+
   return (
     <section className={styles.profile}>
         <div className={styles.inner}>
@@ -75,18 +78,22 @@ const Profile: FC = () => {
             <div className={styles['about-users']}>
               <h2 className={styles['users-title']}>Другие пользователи</h2>
               <ul className={styles['users-list']}>
-                {users.map(({ _id, avatarPath, firstName }, value): any => {
-                    if (_id === store.user.id) return null
-                    if (value <= 14 || isMore) {
-                      return (
-                        <a href={`/users/${_id}`} key={value} className={styles['users-item']}>
-                          <img src={avatarPath} className={styles['item-img']} alt="" />
-                          <h2 className={styles['item-name']}>{firstName}</h2>
-                        </a>
-                      )
-                    }
-                    })}<h1>Загрузка...</h1>
+                {users.map(({ _id, avatarPath, firstName }: IUser, value) => {
+                  if (_id === store.user.id) return null
+                  if (value === users.length - 1){
+                    store.setLoading(false)
+                  }
+                  if (value <= 14 || isMore) {
+                    return (
+                      <a href={`/users/${_id}`} key={value} className={styles['users-item']}>
+                        <img src={avatarPath || `${APP_URL}/common/defaultAvatar.jpg`} className={styles['item-img']} alt="" />
+                        <h2 className={styles['item-name']}>{firstName}</h2>
+                      </a>
+                    )
+                  }
+                  })}
               </ul>
+                {store.isLoading && <h1 className={styles['users-loading']}>Загрузка...</h1>}
               <h2 className={styles['users-more']} onClick={() => setIsMore(!isMore)}>{users.length <= 15 ? '' : !isMore ? 'Показать больше' : 'Показать меньше'}</h2>
             </div>
           </div>
@@ -104,7 +111,7 @@ const Profile: FC = () => {
             <h2 className={styles['posts-title']}>Все посты</h2>
             <div className={styles['posts-list']}>
               {Posts.map(({ link, avatarPath, firstName, lastName, time, text, image }, value): any => (
-                <Post key={value} link={link} avatarPath={avatarPath} firstName={firstName} lastName={lastName} time={time} text={text} image={image}/>
+                <Post key={value} time={time} text={text} image={image}/>
               ))}
             </div>
           </div>
