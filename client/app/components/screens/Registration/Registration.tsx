@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { EffectCallback, FC, useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import styles from "./registration.module.scss";
 import { Context } from "../../../../pages/_app";
 import { useForm } from "react-hook-form";

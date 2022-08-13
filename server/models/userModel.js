@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   lastName: {type: String, required: true},
   avatarPath: {type: String, required: true, default: `${process.env.CLIENT_URL}/avatars/defaultAvatar.jpg`},
   isActivated: {type: Boolean, default: false},
-  activationLink: {type: String}
+  activationLink: {type: String},
 });
 
 const Users = mongoose.model("User", UserSchema);
