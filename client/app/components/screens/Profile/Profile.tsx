@@ -8,14 +8,17 @@ import { FC, useContext, useState } from "react";
 import { useEffect } from "react";
 import { Context } from "../../../../pages/_app";
 import Post from "./Post/Post";
-import PostForm from "./PostForm/PostForm";
 import styles from './profile.module.scss'
+import {BsCameraFill} from 'react-icons/bs'
 
 const Profile: FC = () => {
   const { store } = useContext(Context);
   const [isMore, setIsMore] = useState<boolean>(false)
   const [fileReader, setFileReader] = useState<any>()
+  const [inputValue, setInputValue] = useState<string>('')
+  const [image, setImage] = useState<string>('')
   const [users, setUsers] = useState<IUser[]>([])
+  const [empty, setEmpty] = useState<boolean>(false)
   const [submitActive, setSubmitActive] = useState<boolean>(false)
   const [avatar, setAvatar] = useState<string>(`${APP_URL}/common/defaultAvatar.jpg`)
   const router = useRouter()
@@ -39,13 +42,13 @@ const Profile: FC = () => {
     }
   }
 
-  const handleOnChange = async (event: any): Promise<void> => {
+  const handleOnChange = async (event: any, s?: boolean): Promise<void> => {
     event.preventDefault();
     const file = await event.target.files[0];
     await fileReader?.readAsDataURL(file);
     fileReader.onload = function(e: any) {
-      setAvatar(fileReader.result)
-      setSubmitActive(true)
+      s ? setImage(fileReader.result) : setAvatar(fileReader.result)
+      s ? null : setSubmitActive(true)
     }
   };
 
@@ -53,6 +56,17 @@ const Profile: FC = () => {
     await store.changeAvatar(router.query.id, avatar)
     setSubmitActive(false)
     router.push(`/profile/${store.user.id}`)
+  }
+
+  const handlePost = async (): Promise<void> => {
+    if (inputValue !== '') {
+      await store.addPost(router.query.id, image, inputValue)
+      router.push(`/profile/${store.user.id}`)
+      setInputValue('')
+      setImage('')
+    } else{
+      setEmpty(true)
+    }
   }
 
   if (!store.isAuth) {
@@ -106,7 +120,20 @@ const Profile: FC = () => {
                 <h2 className={styles['content-about-info-item']}>{store.user.posts.length}<span> Постов</span></h2>
               </div>
             </div>
-            <PostForm avatarPath={store.user.avatarPath} />
+            <div className={styles.postform}>
+              <img src={store.user.avatarPath} alt="" className={styles.img} />
+              <input className={styles.input} value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={empty ? 'Это поле обязательно к заполнению !!!' : 'Что у вас нового?'} />
+              <div className={styles['image-wrapper']}>
+                <span className={`${styles["image-span"]}`}><BsCameraFill /></span>
+                <input
+                  className={`${styles["image-input"]}`}
+                  type="file"
+                  placeholder="Выберите аватарку"
+                  onChange={(e) => handleOnChange(e, true)}
+                />
+              </div>
+              <button className={styles.btn} onClick={() => handlePost()}>Опубликовать</button>
+            </div>
             <h2 className={styles['posts-title']}>Все посты</h2>
             <div className={styles['posts-list']}>
               {store.user?.posts.map(({ text, image, likes, comments, date, _id }: IPost) => (

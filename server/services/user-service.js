@@ -124,7 +124,6 @@ class UserService {
     if (!user){
       throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
     }
-    // user.posts[`${user.posts.length}`] = {"text": `${text}`, "image": `${image}`}
     user.posts.unshift({"text": `${text}`, "image": `${image}`})
     await user.save()
     const userDto = new UserDto(user)
