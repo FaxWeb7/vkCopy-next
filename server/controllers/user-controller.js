@@ -90,6 +90,17 @@ class UserController {
       next(e)
     }
   }
+
+  async addPost(req, res, next){
+    try{
+      const id = req.params.id
+      const {text, image} = req.body
+      const userData = await userService.addPost(id, text, image)
+      return res.json(userData)
+    } catch(e){
+      next(e)
+    }
+  }
 }
 
 module.exports = new UserController();

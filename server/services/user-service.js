@@ -21,12 +21,15 @@ class UserService {
 
     const userDto = new UserDto(user)
     const lastAvatar = userDto.avatarPath
+    const lastPosts = userDto.posts
 
     userDto.avatarPath = `${process.env.CLIENT_URL}/common/asd.jpg`
+    userDto.posts = [{}]
     const tokens = tokenService.generateTokens({...userDto})
     await tokenService.saveToken(userDto.id, tokens.refreshToken)
 
     userDto.avatarPath = lastAvatar
+    userDto.posts = lastPosts
 
     return{ ...tokens, user: userDto }
   }
@@ -51,12 +54,15 @@ class UserService {
     }
     const userDto = new UserDto(user)
     const lastAvatar = userDto.avatarPath
+    const lastPosts = userDto.posts
 
     userDto.avatarPath = `${process.env.CLIENT_URL}/common/asd.jpg`
+    userDto.posts = [{}]
     const tokens = tokenService.generateTokens({...userDto})
     await tokenService.saveToken(userDto.id, tokens.refreshToken)
 
     userDto.avatarPath = lastAvatar
+    userDto.posts = lastPosts
 
     return{ ...tokens, user: userDto }
   }
@@ -79,12 +85,15 @@ class UserService {
     const user = await Users.findById(userData.id)
     const userDto = new UserDto(user)
     const lastAvatar = userDto.avatarPath
+    const lastPosts = userDto.posts
 
     userDto.avatarPath = `${process.env.CLIENT_URL}/common/asd.jpg`
+    userDto.posts = [{}]
     const tokens = tokenService.generateTokens({...userDto})
     await tokenService.saveToken(userDto.id, tokens.refreshToken)
     
     userDto.avatarPath = lastAvatar
+    userDto.posts = lastPosts
 
     return{ ...tokens, user: userDto }
   }
@@ -101,8 +110,22 @@ class UserService {
 
   async changeavatar (id, newAvatarPath) {
     const user = await Users.findById(id)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
     user.avatarPath = newAvatarPath
-    user.save()
+    await user.save()
+    const userDto = new UserDto(user)
+    return userDto
+  }
+
+  async addPost (id, text, image) {
+    const user = await Users.findById(id)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    user.posts[`${user.posts.length}`] = {"text": `${text}`, "image": `${image}`}
+    await user.save()
     const userDto = new UserDto(user)
     return userDto
   }

@@ -9,6 +9,14 @@ const UserSchema = new Schema({
   avatarPath: {type: String, required: true, default: `${process.env.CLIENT_URL}/avatars/defaultAvatar.jpg`},
   isActivated: {type: Boolean, default: false},
   activationLink: {type: String},
+  posts: [
+    {
+      text: {type: String, required: false},
+      image: {type: String, required: false},
+      likes: {type: Number, required: false, default: 0},
+      comments: {type: Array, required: false, default: []}
+    }, {timestamps: true}
+  ]
 });
 
 const Users = mongoose.model("User", UserSchema);

@@ -5,6 +5,7 @@ module.exports = class UserDto {
   avatarPath;
   id;
   isActivated;
+  posts;
   
   constructor(model){
     this.email = model.email;
@@ -13,5 +14,6 @@ module.exports = class UserDto {
     this.avatarPath = model.avatarPath;
     this.id = model._id;
     this.isActivated = model.isActivated;
+    this.posts = model.posts;
   }
 }
