@@ -79,7 +79,15 @@ export default class Store {
   async changeAvatar (id: string | undefined | string[], newAvatar: string) {
     try{
       const response = await UserService.changeAvatar(id, newAvatar);
-      console.log(response.data)
+      this.setUser(response.data)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
+
+  async addPost (id: string | undefined | string[], image: string, text: string){
+    try{
+      const response = await UserService.addPost(id, image, text);
       this.setUser(response.data)
     } catch(e: any){
       console.log(e?.response?.data?.message)

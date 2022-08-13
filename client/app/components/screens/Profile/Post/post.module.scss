@@ -60,10 +60,11 @@
   }
   &-text{
     max-width: 650px;
+    word-break: break-word;
   }
   &-image{
     border-radius: 10px;
-    max-width: 650px;
+    width: 510px;
   }
   &-name{
     font-size: 14px;

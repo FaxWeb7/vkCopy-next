@@ -1,3 +1,12 @@
+export interface IPost {
+  _id?: string;
+  text: string;
+  image: string;
+  likes: number;
+  comments: any;
+  date: string;
+}
+
 export interface IUser {
   email: string;
   firstName: string;
@@ -6,6 +15,7 @@ export interface IUser {
   id?: string;
   _id?: string;
   isActivated: boolean;
+  posts: Array<IPost>
 }
 
 export interface AuthResponse {

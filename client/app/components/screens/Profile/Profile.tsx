@@ -2,14 +2,13 @@ import Loading from "@/components/ui/Loading/Loading";
 import Push from "@/components/ui/Push/Push";
 import { APP_URL } from "@/constants/constants";
 import UserService from "@/service/UserService";
-import { IUser } from "@/types/interfaces";
+import { IPost, IUser } from "@/types/interfaces";
 import { useRouter } from "next/router";
 import { FC, useContext, useState } from "react";
 import { useEffect } from "react";
 import { Context } from "../../../../pages/_app";
 import Post from "./Post/Post";
 import PostForm from "./PostForm/PostForm";
-import { Posts } from "./Posts";
 import styles from './profile.module.scss'
 
 const Profile: FC = () => {
@@ -104,14 +103,14 @@ const Profile: FC = () => {
               <div className={styles['content-about-info']}>
                 <h2 className={styles['content-about-info-item']}>50<span> Друзей</span></h2>
                 <div className="line-up"></div>
-                <h2 className={styles['content-about-info-item']}>20<span> Постов</span></h2>
+                <h2 className={styles['content-about-info-item']}>{store.user.posts.length}<span> Постов</span></h2>
               </div>
             </div>
-            <PostForm />
+            <PostForm avatarPath={store.user.avatarPath} />
             <h2 className={styles['posts-title']}>Все посты</h2>
             <div className={styles['posts-list']}>
-              {Posts.map(({ link, avatarPath, firstName, lastName, time, text, image }, value): any => (
-                <Post key={value} time={time} text={text} image={image}/>
+              {store.user?.posts.map(({ text, image, likes, comments, date, _id }: IPost) => (
+                <Post key={_id} text={text} image={image} likes={likes} comments={comments} date={date} />
               ))}
             </div>
           </div>
