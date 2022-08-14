@@ -12,4 +12,13 @@ export default class UserService {
   static addPost (id: string | undefined | string[], image: string, text: string): Promise<AxiosResponse<IUser>>{
     return $api.post<IUser>(`/addpost/${id}`, {text, image})
   }
+  static deletePost (id: string | undefined | string[], postId: string): Promise<AxiosResponse<IUser>>{
+    return $api.post<IUser>(`/deletepost/${id}`, {postId})
+  }
+  static addLike (id: string | undefined | string[], postId: string): Promise<AxiosResponse<IUser>>{
+    return $api.post<IUser>(`/addlike/${id}`, {postId})
+  }
+  static deleteLike (id: string | undefined | string[], postId: string): Promise<AxiosResponse<IUser>>{
+    return $api.post<IUser>(`/deletelike/${id}`, {postId})
+  }
 }

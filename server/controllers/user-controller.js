@@ -101,6 +101,39 @@ class UserController {
       next(e)
     }
   }
+
+  async deletePost(req, res, next){
+    try{
+      const id = req.params.id
+      const {postId} = req.body
+      const userData = await userService.deletePost(id, postId)
+      return res.json(userData)
+    } catch(e){
+      next(e)
+    }
+  }
+
+  async addLike(req, res, next){
+    try{
+      const id = req.params.id
+      const {postId} = req.body
+      const userData = await userService.addLike(id, postId)
+      return res.json(userData)
+    } catch(e){
+      next(e)
+    }
+  }
+
+  async deleteLike(req, res, next){
+    try{
+      const id = req.params.id
+      const {postId} = req.body
+      const userData = await userService.deleteLike(id, postId)
+      return res.json(userData)
+    } catch(e){
+      next(e)
+    }
+  }
 }
 
 module.exports = new UserController();

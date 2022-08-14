@@ -129,6 +129,51 @@ class UserService {
     const userDto = new UserDto(user)
     return userDto
   }
+
+  async deletePost (id, postId) {
+    const user = await Users.findById(id)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    user.posts.map(({_id}, value) => {
+      if (_id == postId){
+        user.posts.splice(user.posts[`${value}`], 1)
+      }
+    })
+    await user.save()
+    const userDto = new UserDto(user)
+    return userDto
+  }
+
+  async addLike (id, postId) {
+    const user = await Users.findById(id)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    user.posts.map(({_id}, value) => {
+      if (_id == postId){
+        user.posts[`${value}`].likes += 1
+      }
+    })
+    await user.save()
+    const userDto = new UserDto(user)
+    return userDto
+  }
+
+  async deleteLike (id, postId) {
+    const user = await Users.findById(id)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    user.posts.map(({_id}, value) => {
+      if (_id == postId){
+        user.posts[`${value}`].likes -= 1
+      }
+    })
+    await user.save()
+    const userDto = new UserDto(user)
+    return userDto
+  }
 }
 
 module.exports = new UserService();

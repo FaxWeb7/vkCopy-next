@@ -12,6 +12,9 @@ router.get('/users', UserController.getUsers);
 router.get('/getuser', UserController.getUser);
 router.post('/changeavatar/:id', UserController.changeAvatar)
 router.post('/addpost/:id', UserController.addPost);
+router.post('/deletepost/:id', UserController.deletePost);
+router.post('/addlike/:id', UserController.addLike);
+router.post('/deletelike/:id', UserController.deleteLike);
 
 module.exports = router;
 

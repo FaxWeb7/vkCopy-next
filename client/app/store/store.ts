@@ -93,4 +93,31 @@ export default class Store {
       console.log(e?.response?.data?.message)
     }
   }
+
+  async deletePost (id: string | undefined | string[], postId: string){
+    try{
+      const response = await UserService.deletePost(id, postId);
+      this.setUser(response.data)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
+
+  async addLike (id: string | undefined | string[], postId: string){
+    try{
+      const response = await UserService.addLike(id, postId);
+      this.setUser(response.data)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
+
+  async deleteLike (id: string | undefined | string[], postId: string){
+    try{
+      const response = await UserService.deleteLike(id, postId);
+      this.setUser(response.data)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
 }

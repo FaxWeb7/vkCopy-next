@@ -137,7 +137,7 @@ const Profile: FC = () => {
             <h2 className={styles['posts-title']}>Все посты</h2>
             <div className={styles['posts-list']}>
               {store.user?.posts.map(({ text, image, likes, comments, date, _id }: IPost) => (
-                <Post key={_id} text={text} image={image} likes={likes} comments={comments} date={date} />
+                <Post key={_id} _id={_id} text={text} image={image} likes={likes} comments={comments} date={date} />
               ))}
             </div>
           </div>
