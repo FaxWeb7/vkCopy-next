@@ -174,6 +174,51 @@ class UserService {
     const userDto = new UserDto(user)
     return userDto
   }
+
+  async addFriend (id, friendId) {
+    const user = await Users.findById(id)
+    const friend = await Users.findById(friendId)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    if (!friend){
+      throw ApiError.BadRequest(`Друг ещё не зарегистрирован`)
+    }
+    user.friends.map((friend) => {
+      if (friend.friendId == friendId){
+        throw ApiError.BadRequest(`Вы уже друзья`)
+      }
+    })
+    user.friends.unshift({"friendId": `${friendId}`})
+    friend.friends.unshift({"friendId": `${id}`})
+    await user.save()
+    await friend.save()
+    const userDto = new UserDto(user)
+    const friendDto = new UserDto(friend)
+    return {userDto, friendDto}
+  }
+
+  async deleteFriend (id, friendId) {
+    const user = await Users.findById(id)
+    const friend = await Users.findById(friendId)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    if (!friend){
+      throw ApiError.BadRequest(`Друг ещё не зарегистрирован`)
+    }
+    user.friends.map((newfriend, value) => {
+      if (newfriend.friendId == friendId){
+        user.friends.splice(user.friends[`${value}`], 1)
+        friend.friends.splice(friend.friends[`${value}`], 1)
+      }
+    })
+    await user.save()
+    await friend.save()
+    const userDto = new UserDto(user)
+    const friendDto = new UserDto(friend)
+    return {userDto, friendDto}
+  }
 }
 
 module.exports = new UserService();

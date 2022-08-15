@@ -22,7 +22,6 @@ const Profile: FC = () => {
   const [submitActive, setSubmitActive] = useState<boolean>(false)
   const [avatar, setAvatar] = useState<string>(`${APP_URL}/common/defaultAvatar.jpg`)
   const router = useRouter()
-  
 
   useEffect(() => {
     getUsers()

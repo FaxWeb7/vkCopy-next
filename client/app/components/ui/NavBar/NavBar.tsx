@@ -20,10 +20,10 @@ const NavBar: FC = () => {
     <nav className={styles.navbar}>
       <div className={styles.inner}>
         <div className={styles.profile}>
-          <a href="/profile">
+          <a href={`/profile/${store.user.id}`}>
             <img src={store.user.avatarPath || `${APP_URL}/avatars/defaultAvatar.jpg`} alt="avatar" className={styles["profile-avatar"]} />
           </a>
-          <a href="/profile" className={styles["profile-name"]}>{store.user.firstName} {store.user.lastName}</a>
+          <a href={`/profile/${store.user.id}`} className={styles["profile-name"]}>{store.user.firstName} {store.user.lastName}</a>
           <MdExpandMore className={isOpen ? `${styles['profile-btn']} ${styles['profile-btn-active']}` : styles['profile-btn']} onClick={() => setIsOpen(!isOpen)} />
           <button className={isOpen ? `${styles['profile-exit']} ${styles['profile-exit-active']}` : styles['profile-exit']} onClick={() => Logout()}>Выйти</button>
         </div>

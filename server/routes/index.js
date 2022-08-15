@@ -9,12 +9,14 @@ router.post('/logout', UserController.Logout);
 router.get('/activate/:link', UserController.Activate);
 router.get('/refresh', UserController.Refresh);
 router.get('/users', UserController.getUsers);
-router.get('/getuser', UserController.getUser);
+router.get('/getuser/:id', UserController.getUser);
 router.post('/changeavatar/:id', UserController.changeAvatar)
 router.post('/addpost/:id', UserController.addPost);
 router.post('/deletepost/:id', UserController.deletePost);
 router.post('/addlike/:id', UserController.addLike);
 router.post('/deletelike/:id', UserController.deleteLike);
+router.post('/addfriend/:id', UserController.addFriend);
+router.post('/deletefriend/:id', UserController.deleteFriend);
 
 module.exports = router;
 

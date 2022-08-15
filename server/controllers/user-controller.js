@@ -72,7 +72,7 @@ class UserController {
 
   async getUser (req, res, next) {
     try{
-      const id = req.params.link
+      const id = req.params.id
       const userData = await userService.getUser(id)
       return res.json(userData)
     } catch (e) {
@@ -130,6 +130,28 @@ class UserController {
       const {postId} = req.body
       const userData = await userService.deleteLike(id, postId)
       return res.json(userData)
+    } catch(e){
+      next(e)
+    }
+  }
+
+  async addFriend(req, res, next){
+    try{
+      const id = req.params.id
+      const {friendId} = req.body
+      const usersData = await userService.addFriend(id, friendId)
+      return res.json(usersData)
+    } catch(e){
+      next(e)
+    }
+  }
+
+  async deleteFriend(req, res, next){
+    try{
+      const id = req.params.id
+      const {friendId} = req.body
+      const usersData = await userService.deleteFriend(id, friendId)
+      return res.json(usersData)
     } catch(e){
       next(e)
     }

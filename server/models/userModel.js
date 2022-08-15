@@ -9,6 +9,11 @@ const UserSchema = new Schema({
   avatarPath: {type: String, required: true, default: `${process.env.CLIENT_URL}/avatars/defaultAvatar.jpg`},
   isActivated: {type: Boolean, default: false},
   activationLink: {type: String},
+  friends: [
+    {
+      friendId: {type: String, required: true}
+    }
+  ],
   posts: [
     {
       text: {type: String, required: false},
