@@ -26,9 +26,9 @@ const Profile: FC = () => {
   useEffect(() => {
     getUsers()
     setFileReader(new FileReader())
-    store.setLoading(true)
     if (localStorage.getItem("token")) {
       store.checkAuth()
+      store.setLoading(true)
     }
   }, [])
 
