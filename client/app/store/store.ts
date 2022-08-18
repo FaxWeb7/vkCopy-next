@@ -8,6 +8,7 @@ import UserService from "@/service/UserService";
 
 export default class Store {
   user = {} as IUser;
+  secondUser = {} as IUser;
   isAuth = false;
   isLoading = false;
 
@@ -27,6 +28,10 @@ export default class Store {
     this.isLoading = bool
   }
 
+  setSecondUser(user: IUser){
+    this.secondUser = user
+  }
+  
   async login(email: string, password: string) {
     try{
       const response = await AuthService.login(email, password);
@@ -116,6 +121,16 @@ export default class Store {
     try{
       const response = await UserService.deleteLike(id, postId);
       this.setUser(response.data)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
+
+  async getSecondUser (id: string | undefined | string[]){
+    try{
+      const response = await UserService.getSecondUser(id);
+      this.setSecondUser(response.data)
+      console.log(this.secondUser)
     } catch(e: any){
       console.log(e?.response?.data?.message)
     }

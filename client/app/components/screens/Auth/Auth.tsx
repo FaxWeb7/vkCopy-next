@@ -26,15 +26,12 @@ const Auth: FC = () => {
     if (localStorage.getItem("token")) {
       store.checkAuth()
     }
+    if (store.isAuth) {
+      router.back()
+    }
   }, [])
 
-  if (store.isAuth) {
-    return (
-      <>
-        {store.user.id === 'undefined' ? <Loading /> : <Push href={`/profile/${store.user.id}`} />}
-      </>
-    )
-  }
+  
 
   const Login = async ({ email, password }: IResponseLogin): Promise<void> => {
     const login = await store.login(email, password)

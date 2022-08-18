@@ -67,7 +67,7 @@ const Profile: FC = () => {
       setEmpty(true)
     }
   }
-
+  
   if (!store.isAuth) {
     return(
       <Push href="/authorization" />

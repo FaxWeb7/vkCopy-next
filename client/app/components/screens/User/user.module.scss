@@ -1,0 +1,231 @@
+@import '../../../styles/vars';
+
+.profile{
+  .inner{
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .about{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    &-avatar{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      border-radius: 10px;
+      background-color: $grey;
+    }
+    &-users{
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 18px;
+      background-color: $grey;
+      padding: 15px;
+      border-radius: 10px;
+      width: 100%;
+    }
+  }
+  .input-wrapper{
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .avatar{
+    &-img{
+      width: 260px; 
+      border-radius: 10px;
+    }
+    &-btn{
+      background-color: $btnGrey;
+      color: #fff;
+      padding: 6px 10px;
+      width: 100%;
+      border-radius: 5px;
+      transition: all .3s ease;
+      &:hover{
+        background-color: $btnLightGrey;
+      }
+    }
+    &-input{
+      position: absolute;
+      right: 0;
+      width: 100%;
+      cursor: pointer;
+      opacity: 0;
+      height: 100%;
+    }
+    &-submit{
+      background-color: $btnGrey;
+      color: #fff;
+      padding: 6px 10px;
+      width: 100%;
+      border-radius: 5px;
+      transition: all .3s ease;
+      &:hover{
+        background-color: $btnLightGrey;
+      }
+    }
+  }
+  .users{
+    &-list{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 10px;
+      grid-row-gap: 10px;
+      width: 100%;
+    }
+    &-item{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 4px;
+    }
+    &-more{
+      cursor: pointer;
+      align-self: end;
+    }
+  }
+  .item{
+    &-img{
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+    }
+  }
+  .content{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    width: 70%;
+    &-about{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      background-color: $grey;
+      padding: 15px;
+      border-radius: 10px;
+      gap: 10px;
+      width: 100%;
+      &-name{
+        font-size: 22px;
+      }
+      &-info{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        &-item{
+          color: #71AAEB;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          font-size: 20px;
+          span{
+            color: #fff;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+  .users-loading{
+    align-self: center;
+    margin-bottom: 10px;
+  }
+  .posts-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+  }
+  .posts-title{
+    width: 100%;
+    background-color: $grey;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: -5px;
+  }
+  .postform{
+    background-color: #1A1D20;
+    padding: 12px;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .img{
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+    }
+    .input{
+      margin-left: 12px; 
+      background-color: $grey;
+      outline: none;
+      width: 100%;
+      border: none;
+      color: #fff;
+    }
+    .image-wrapper{
+      position: relative;
+      border: none;
+      border-radius: 10px;
+      height: 40px;
+      padding: 0 10px;
+      color: white;
+      background: transparent;
+      margin-left: auto;
+    }
+    .image-input{
+      padding-top: 9px;
+      opacity: 0;
+      cursor: pointer;
+      position: absolute;
+      width: 20px;
+      left: 10px;
+      top: 0px;
+    }
+    .image-span{
+      color: #fff;
+      position: absolute;
+      border: 2px solid $lightGrey;
+      border-radius: 6px;
+      padding: 1px 5px;
+      left: 7px;
+      top: 8px;
+      cursor: pointer;
+    }
+    .btn{
+      margin-left: 25px;
+      color: #fff;
+      background-color: $btnGrey;
+      padding: 5px 15px;
+      border-radius: 6px;
+      transition: all .3s ease;
+      &:hover{
+        background-color: $btnLightGrey;
+      }
+    }
+  }
+}

@@ -16,8 +16,15 @@ const NavBar: FC = () => {
     await store.logout();
     router.push('/')
   }
+  
   const checkClientAuth = async (): Promise<void> => {await store.checkAuth(); router.push(router.asPath)}
-  useEffect(() => {if (router.query.id !== undefined) {checkClientAuth()} else if (router.pathname.split('')[`${router.pathname.split('').length - 1}`] !== ']'){checkClientAuth()}}, [isAuth])
+  useEffect(() => {
+    if (router.query.id !== undefined) {
+      checkClientAuth()
+    } else if (router.pathname.split('')[`${router.pathname.split('').length - 1}`] !== ']'){
+      checkClientAuth()
+    } 
+  }, [isAuth])
 
   return (
     <>

@@ -37,6 +37,7 @@
     width: 70px;
     height: 70px;
     border-radius: 50%;
+    cursor: pointer;
   }
   .content{
     display: flex;
@@ -48,6 +49,7 @@
   }
   .name{
     font-size: 15px;
+    cursor: pointer;
   }
   .links{
     display: flex;
@@ -56,6 +58,7 @@
     gap: 5px;
     &-item{
       color: #71AACA;
+      cursor: pointer;
     }
   }
 }

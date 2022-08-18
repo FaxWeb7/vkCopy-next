@@ -1,13 +1,16 @@
-import { APP_URL } from '@/constants/constants';
 import UserService from '@/service/UserService';
 import { IUser } from '@/types/interfaces';
 import { FC, useContext, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Context } from '../../../../pages/_app';
 import styles from './userslist.module.scss'
+import Push from '@/components/ui/Push/Push';
+import { useRouter } from 'next/router';
 
 const UsersList: FC = () => {
   const [users, setUsers] = useState<Array<IUser>>([])
   const {store} = useContext(Context)
+  const router = useRouter()
 
   useEffect(() => {
     getUsers()
@@ -36,12 +39,24 @@ const UsersList: FC = () => {
           if (_id === store.user.id) return null
           return(
             <li className={styles['list-item']} key={value}>
-              <a href={`/users/${_id}`}><img src={avatarPath} className={styles['avatar']} /></a>
+              <Link href={{
+                pathname: `/users/[id]`,
+                query: { id: `${_id}` }
+                }}><img src={avatarPath} className={styles['avatar']} /></Link>
               <div className={styles['content']}>
-                <a href={`/users/${_id}`} className={styles.name}>{firstName} {lastName}</a>
+                <Link href={{
+                  pathname: `/users/[id]`,
+                  query: { id: `${_id}` }
+                  }}><h3 className={styles.name}>{firstName} {lastName}</h3></Link>
                 <div className={styles.links}>
-                  <a href={`/users/${_id}`} className={styles['links-item']}>Посмотреть профиль</a> <span>|</span>
-                  <a href={`/users/${_id}`} className={styles['links-item']}>Написать сообщение</a>
+                  <Link href={{
+                    pathname: `/users/[id]`,
+                    query: { id: `${_id}` }
+                    }}><h4 className={styles['links-item']}>Посмотреть профиль</h4></Link> <span>|</span>
+                  <Link href={{
+                    pathname: `/users/[id]`,
+                    query: { id: `${_id}` }
+                    }}><h4 className={styles['links-item']}>Написать сообщение</h4></Link>
                 </div>
               </div>
             </li>

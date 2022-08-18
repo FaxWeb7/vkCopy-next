@@ -104,8 +104,12 @@ class UserService {
   }
 
   async getUser (id) {
-    const user = Users.findById(id)
-    return user
+    const user = await Users.findById(id)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    const userDto = new UserDto(user)
+    return userDto
   }
 
   async changeavatar (id, newAvatarPath) {

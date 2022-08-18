@@ -21,4 +21,7 @@ export default class UserService {
   static deleteLike (id: string | undefined | string[], postId: string): Promise<AxiosResponse<IUser>>{
     return $api.post<IUser>(`/deletelike/${id}`, {postId})
   }
+  static getSecondUser (id: string | undefined | string[]): Promise<AxiosResponse<IUser>>{
+    return $api.get<IUser>(`/getuser/${id}`)
+  }
 }
