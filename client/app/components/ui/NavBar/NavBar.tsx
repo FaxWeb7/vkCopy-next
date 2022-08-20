@@ -31,6 +31,7 @@ const NavBar: FC = () => {
       {!store.isAuth ? (
         <>
           <h1>Загрузка...</h1>
+          {console.log(store.isAuth)}
           {isAuth === false ? setIsAuth(true) : null}
         </>
       ) : 

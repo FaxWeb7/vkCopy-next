@@ -1,0 +1,119 @@
+@import '../../../styles/vars';
+
+.post{
+  background-color: #1A1D20;
+  padding: 15px;
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  position: relative;
+  &-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  &-info{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    &-content{
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+  }
+  &-options{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 5px;
+  }
+  &-more{
+    margin-left: auto;
+    background-color: transparent;
+    color: $btnLightGrey;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  &-change{
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    gap: 12px;
+    background-color: $btnLightGrey;
+    position: absolute;
+    padding: 12px;
+    right: 0; 
+    top: 50px;
+    &.active{
+      animation: fadeIn .5s;
+    }
+  }
+  &-likes, &-comments{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6.5px;
+    cursor: pointer;
+    .comments-num, .likes-num{
+      font-size: 15px;
+      color: rgb(202, 202, 202);
+    }
+  }
+  .likes-img{
+    margin-top: 2px;
+    font-size: 19px;
+    color: #939393;
+    transition: all .3s ease;
+    &.active{
+      color: rgb(221, 0, 0);
+    }
+  }
+  .change-item{
+    cursor: pointer;
+  }
+  .comments-img{
+    margin-top: 2px;
+    color: #939393;
+    font-size: 16px;
+  }
+  &-text{
+    max-width: 650px;
+    word-break: break-word;
+  }
+  &-image{
+    border-radius: 10px;
+    width: 510px;
+  }
+  &-name{
+    font-size: 14px;
+  }
+  &-time{
+    color: #828282;
+  }
+  &-avatar{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

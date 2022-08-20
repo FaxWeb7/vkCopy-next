@@ -130,7 +130,6 @@ export default class Store {
     try{
       const response = await UserService.getSecondUser(id);
       this.setSecondUser(response.data)
-      console.log(this.secondUser)
     } catch(e: any){
       console.log(e?.response?.data?.message)
     }
