@@ -17,22 +17,24 @@ const NavBar: FC = () => {
     router.push('/')
   }
   
-  const checkClientAuth = async (): Promise<void> => {await store.checkAuth(); router.push(router.asPath)}
-  useEffect(() => {
-    if (router.query.id !== undefined) {
-      checkClientAuth()
-    } else if (router.pathname.split('')[`${router.pathname.split('').length - 1}`] !== ']'){
-      checkClientAuth()
-    } 
-  }, [isAuth])
+  const checkClientAuth = async (): Promise<void> => {await store.checkAuth(); setIsAuth(true)}
+  // useEffect(() => {
+  //   if (router.query.id !== undefined) {
+  //     checkClientAuth()
+  //   } else if (router.pathname.split('')[`${router.pathname.split('').length - 1}`] !== ']'){
+  //     checkClientAuth()
+  //   } 
+  // }, [isAuth])
+
+  if (router.query !== undefined) {
+    checkClientAuth()
+  } 
 
   return (
     <>
-      {!store.isAuth ? (
+      {isAuth === false ? (
         <>
           <h1>Загрузка...</h1>
-          {console.log(store.isAuth)}
-          {isAuth === false ? setIsAuth(true) : null}
         </>
       ) : 
       <nav className={styles.navbar}>

@@ -45,6 +45,7 @@ class UserService {
 
   async login (email, password){
     const user = await Users.findOne({email: email})
+    console.log('asd')
     if (!user){
       throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
     }

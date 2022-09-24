@@ -30,9 +30,7 @@ const Auth: FC = () => {
       router.back()
     }
   }, [])
-
   
-
   const Login = async ({ email, password }: IResponseLogin): Promise<void> => {
     const login = await store.login(email, password)
     if (login === undefined){

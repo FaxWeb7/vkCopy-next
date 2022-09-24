@@ -14,6 +14,7 @@ import {BsCameraFill} from 'react-icons/bs'
 const Profile: FC = () => {
   const { store } = useContext(Context);
   const [isMore, setIsMore] = useState<boolean>(false)
+  const [isAuth, setIsAuth] = useState<boolean>(false)
   const [fileReader, setFileReader] = useState<any>()
   const [inputValue, setInputValue] = useState<string>('')
   const [image, setImage] = useState<string>('')
@@ -26,10 +27,10 @@ const Profile: FC = () => {
   useEffect(() => {
     getUsers()
     setFileReader(new FileReader())
-    if (localStorage.getItem("token")) {
-      store.checkAuth()
-      store.setLoading(true)
-    }
+    // if (localStorage.getItem("token")) {
+    //   store.checkAuth()
+    //   store.setLoading(true)
+    // }
   }, [])
 
   const getUsers = async () => {
@@ -67,16 +68,21 @@ const Profile: FC = () => {
       setEmpty(true)
     }
   }
-  
-  if (!store.isAuth) {
-    return(
-      <Push href="/authorization" />
-    )
-  }
 
+  const checkClientAuth = async (): Promise<void> => {await store.checkAuth(); setIsAuth(true)}
+
+  if (router.query !== undefined) {
+    checkClientAuth()
+  } 
 
   return (
-    <section className={styles.profile}>
+    <>
+      {isAuth === false ? (
+        <>
+          <h1>Загрузка...</h1>
+        </>
+      ) :
+      <section className={styles.profile}>
         <div className={styles.inner}>
           <div className={styles.about}>
             <div className={styles['about-avatar']}>
@@ -116,7 +122,7 @@ const Profile: FC = () => {
               <div className={styles['content-about-info']}>
                 <h2 className={styles['content-about-info-item']}>50<span> Друзей</span></h2>
                 <div className="line-up"></div>
-                <h2 className={styles['content-about-info-item']}>{store.user.posts.length}<span> Постов</span></h2>
+                <h2 className={styles['content-about-info-item']}>{store?.user?.posts?.length}<span> Постов</span></h2>
               </div>
             </div>
             <div className={styles.postform}>
@@ -135,13 +141,14 @@ const Profile: FC = () => {
             </div>
             <h2 className={styles['posts-title']}>Все посты</h2>
             <div className={styles['posts-list']}>
-              {store.user?.posts.map(({ text, image, likes, comments, date, _id }: IPost) => (
+              {store?.user?.posts?.map(({ text, image, likes, comments, date, _id }: IPost) => (
                 <Post key={_id} _id={_id} text={text} image={image} likes={likes} comments={comments} date={date} />
               ))}
             </div>
           </div>
         </div>
-    </section>
+      </section>}
+    </>
   )
 }
 

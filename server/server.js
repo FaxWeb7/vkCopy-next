@@ -39,7 +39,7 @@ app.use(cookieParser());
 app.use(cors({
   credentials: true,
   exposedHeaders: 'Set-Cookie',
-  origin: process.env.CLIENT_URL
+  origin: 'http://localhost:3000'
 }));
 app.use('/api', indexRoutes);
 app.use(errorMiddleware)

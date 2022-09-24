@@ -9,7 +9,7 @@ const profile: FC = () => {
   
   return(
     <>
-      <MetaTitle title='user' />
+      <MetaTitle title='asd' />
       <User />
     </>
   );

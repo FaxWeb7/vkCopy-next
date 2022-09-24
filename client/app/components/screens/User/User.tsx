@@ -18,6 +18,7 @@ const User: FC = () => {
       store.checkAuth()
     }
   }, [])
+  
   if (router.query.id !== undefined && counter === 0) {
     (async (): Promise<void> => {
       await store.getSecondUser(router.query.id)
