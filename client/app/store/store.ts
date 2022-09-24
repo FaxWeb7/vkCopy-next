@@ -135,4 +135,24 @@ export default class Store {
       console.log(e?.response?.data?.message)
     }
   }
+
+  async getFriend (friendId: string) {
+    try{
+      const response = await UserService.getFriend(friendId);
+      return response.data
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
+
+  async addFriend (id: string | undefined | string[], friendId: string | undefined | string[]){
+    try{
+      console.log(id, friendId)
+      const response = await UserService.addFriend(id, friendId);
+      this.setUser(response.data[0])
+      this.setSecondUser(response.data[1])
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
 }

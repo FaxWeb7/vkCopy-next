@@ -200,7 +200,7 @@ class UserService {
     await friend.save()
     const userDto = new UserDto(user)
     const friendDto = new UserDto(friend)
-    return {userDto, friendDto}
+    return [userDto, friendDto]
   }
 
   async deleteFriend (id, friendId) {

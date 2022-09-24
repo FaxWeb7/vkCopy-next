@@ -2,7 +2,7 @@ import Loading from "@/components/ui/Loading/Loading";
 import Push from "@/components/ui/Push/Push";
 import { APP_URL } from "@/constants/constants";
 import UserService from "@/service/UserService";
-import { IPost, IUser } from "@/types/interfaces";
+import { IFriend, IPost, IUser } from "@/types/interfaces";
 import { useRouter } from "next/router";
 import { FC, useContext, useState } from "react";
 import { useEffect } from "react";
@@ -18,25 +18,25 @@ const Profile: FC = () => {
   const [fileReader, setFileReader] = useState<any>()
   const [inputValue, setInputValue] = useState<string>('')
   const [image, setImage] = useState<string>('')
-  const [users, setUsers] = useState<IUser[]>([])
+  const [friends, setFriends] = useState<IUser[]>([{} as IUser])
   const [empty, setEmpty] = useState<boolean>(false)
   const [submitActive, setSubmitActive] = useState<boolean>(false)
   const [avatar, setAvatar] = useState<string>(`${APP_URL}/common/defaultAvatar.jpg`)
   const router = useRouter()
 
   useEffect(() => {
-    getUsers()
     setFileReader(new FileReader())
-    // if (localStorage.getItem("token")) {
-    //   store.checkAuth()
-    //   store.setLoading(true)
-    // }
   }, [])
 
-  const getUsers = async () => {
+  const getFriends = async (): Promise<void> => {
     try{
-      const response = await UserService.fetchUsers();
-      setUsers(response.data)
+      await store.user.friends.map(({ friendId, _id }) => {
+        (async (friendId: string): Promise<void> => {
+          const response = await store.getFriend(friendId)
+          setFriends([response ? response : {} as IUser])
+        })(friendId)
+      })
+      setIsAuth(true)
     } catch(e){
       console.log(e)
     }
@@ -69,11 +69,17 @@ const Profile: FC = () => {
     }
   }
 
-  const checkClientAuth = async (): Promise<void> => {await store.checkAuth(); setIsAuth(true)}
+  БЕСКОНЕЧНЫЙ ЦИКЛ ЗАПРОСА ДРУЗЕЙ 
+  В СПИСОК ВСЕХ ДРУЗЕЙ ДОБАВЛЯЕТСЯ ТОЛЬКО ПОСЛЕДНИЙ, НУЖНО ЧТОБЫ ОНИ ПЛЮСОВАЛИСЬ
 
+  const checkClientAuth = async (): Promise<void> => {await store.checkAuth()}
   if (router.query !== undefined) {
-    checkClientAuth()
+    (async () => {
+      await checkClientAuth()
+      getFriends()
+    })()
   } 
+
 
   return (
     <>
@@ -94,11 +100,12 @@ const Profile: FC = () => {
                 {submitActive && <button className={styles['avatar-submit']} onClick={() => handleChangeAvatar()}>Готово</button>}
             </div>
             <div className={styles['about-users']}>
-              <h2 className={styles['users-title']}>Другие пользователи</h2>
+              <h2 className={styles['users-title']}>Друзья</h2>
               <ul className={styles['users-list']}>
-                {users.map(({ _id, avatarPath, firstName }: IUser, value) => {
+                {friends.map(({ _id, avatarPath, firstName }: IUser, value: any) => {
+                  console.log(firstName)
                   if (_id === store.user.id) return null
-                  if (value === users.length - 1){
+                  if (value === friends.length - 1){
                     store.setLoading(false)
                   }
                   if (value <= 14 || isMore) {
@@ -111,8 +118,8 @@ const Profile: FC = () => {
                   }
                   })}
               </ul>
-                {store.isLoading && <h1 className={styles['users-loading']}>Загрузка...</h1>}
-              <h2 className={styles['users-more']} onClick={() => setIsMore(!isMore)}>{users.length <= 15 ? '' : !isMore ? 'Показать больше' : 'Показать меньше'}</h2>
+                {/* {store.isLoading && <h1 className={styles['users-loading']}>Загрузка...</h1>} */}
+              {/* <h2 className={styles['users-more']} onClick={() => setIsMore(!isMore)}>{users.length <= 15 ? '' : !isMore ? 'Показать больше' : 'Показать меньше'}</h2> */}
             </div>
           </div>
           <div className={styles.content}>
@@ -120,9 +127,9 @@ const Profile: FC = () => {
               <h1 className={styles['content-about-name']}>{store.user.firstName} {store.user.lastName}</h1>
               <div className="line"></div>
               <div className={styles['content-about-info']}>
-                <h2 className={styles['content-about-info-item']}>50<span> Друзей</span></h2>
+                <h2 className={styles['content-about-info-item']}>{store.user?.friends?.length || 0}<span> Друзей</span></h2>
                 <div className="line-up"></div>
-                <h2 className={styles['content-about-info-item']}>{store?.user?.posts?.length}<span> Постов</span></h2>
+                <h2 className={styles['content-about-info-item']}>{store?.user?.posts?.length || 0}<span> Постов</span></h2>
               </div>
             </div>
             <div className={styles.postform}>

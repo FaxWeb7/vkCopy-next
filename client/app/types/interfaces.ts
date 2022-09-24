@@ -7,6 +7,11 @@ export interface IPost {
   date: string;
 }
 
+export interface IFriend {
+  friendId: string;
+  _id: string;
+}
+
 export interface IUser {
   email: string;
   firstName: string;
@@ -15,7 +20,8 @@ export interface IUser {
   id?: string;
   _id?: string;
   isActivated: boolean;
-  posts: Array<IPost>
+  posts: Array<IPost>;
+  friends: Array<IFriend>
 }
 
 export interface AuthResponse {

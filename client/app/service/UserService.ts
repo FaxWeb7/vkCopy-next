@@ -24,4 +24,10 @@ export default class UserService {
   static getSecondUser (id: string | undefined | string[]): Promise<AxiosResponse<IUser>>{
     return $api.get<IUser>(`/getuser/${id}`)
   }
+  static getFriend (friendId: string): Promise<AxiosResponse<IUser>>{
+    return $api.get<IUser>(`/getuser/${friendId}`)
+  }
+  static addFriend (id: string | undefined | string[], friendId: string | undefined | string[]): Promise<AxiosResponse<IUser[]>>{
+    return $api.post<IUser[]>(`/addfriend/${id}`, {friendId})
+  }
 }

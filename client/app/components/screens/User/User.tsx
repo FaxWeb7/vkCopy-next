@@ -1,30 +1,18 @@
 import Loading from '@/components/ui/Loading/Loading';
-import Push from '@/components/ui/Push/Push';
 import { IPost, IUser } from '@/types/interfaces';
 import { useRouter } from 'next/router';
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useContext } from 'react';
 import { Context } from '../../../../pages/_app';
 import Post from '../Profile/Post/Post';
 import styles from './user.module.scss'
 
-const User: FC = () => {
+const User: FC<{user: IUser}> = ({ user }) => {
   const {store} = useContext(Context)
   const router = useRouter()
-  const [counter, setCounter] = useState<number>(0)
-  const [user, setUser] = useState<IUser>({} as IUser)
-  
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      store.checkAuth()
-    }
-  }, [])
-  
-  if (router.query.id !== undefined && counter === 0) {
-    (async (): Promise<void> => {
-      await store.getSecondUser(router.query.id)
-      await setUser(store.secondUser)
-      await setCounter(1)
-    })()
+
+  const addFriend = async (): Promise<void> => {
+    const response = await store.addFriend(store.user.id, router.query.id)
+    console.log(store.user, store.secondUser)
   }
 
   return (
@@ -36,7 +24,7 @@ const User: FC = () => {
               <div className={styles['about-avatar']}>
                 <img className={styles['avatar-img']} src={user.avatarPath} alt="avatar" />
                 <div className={styles['input-wrapper']}>
-                  <button className={styles['avatar-btn']}>Добавить в друзья</button>
+                  <button className={styles['avatar-btn']} onClick={() => addFriend()}>Добавить в друзья</button>
                   <button className={styles['avatar-btn']}>Написать сообщение</button>
                 </div>
               </div>
