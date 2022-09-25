@@ -14,6 +14,7 @@ const profile: FC = () => {
   if (router.query.id !== undefined && counter === 0) {
     (async (): Promise<void> => {
       await store.getSecondUser(router.query.id)
+      console.log(store.secondUser.posts)
       await setUser(store.secondUser)
       await setCounter(1)
     })()

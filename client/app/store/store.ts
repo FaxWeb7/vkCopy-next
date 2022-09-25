@@ -147,8 +147,17 @@ export default class Store {
 
   async addFriend (id: string | undefined | string[], friendId: string | undefined | string[]){
     try{
-      console.log(id, friendId)
       const response = await UserService.addFriend(id, friendId);
+      this.setUser(response.data[0])
+      this.setSecondUser(response.data[1])
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
+
+  async deleteFriend (id: string | undefined | string[], friendId: string | undefined | string[]){
+    try{
+      const response = await UserService.deleteFriend(id, friendId);
       this.setUser(response.data[0])
       this.setSecondUser(response.data[1])
     } catch(e: any){

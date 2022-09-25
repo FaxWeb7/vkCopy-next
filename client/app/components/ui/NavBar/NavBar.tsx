@@ -40,7 +40,7 @@ const NavBar: FC = () => {
       <nav className={styles.navbar}>
         <div className={styles.inner}>
           <div className={styles.profile}>
-            <a href={`/profile/${store.user.id}`}>
+            <a href={`/profile/asd`}>
               <img src={store.user.avatarPath || `${APP_URL}/avatars/defaultAvatar.jpg`} alt="avatar" className={styles["profile-avatar"]} />
             </a>
             <a href={`/profile/${store.user.id}`} className={styles["profile-name"]}>{store.user.firstName} {store.user.lastName}</a>

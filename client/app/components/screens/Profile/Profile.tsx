@@ -18,25 +18,38 @@ const Profile: FC = () => {
   const [fileReader, setFileReader] = useState<any>()
   const [inputValue, setInputValue] = useState<string>('')
   const [image, setImage] = useState<string>('')
-  const [friends, setFriends] = useState<IUser[]>([{} as IUser])
+  const [friends, setFriends] = useState<Array<IUser>>([])
   const [empty, setEmpty] = useState<boolean>(false)
   const [submitActive, setSubmitActive] = useState<boolean>(false)
   const [avatar, setAvatar] = useState<string>(`${APP_URL}/common/defaultAvatar.jpg`)
   const router = useRouter()
 
   useEffect(() => {
-    setFileReader(new FileReader())
+    (async () => {
+      await setFileReader(new FileReader())
+      await checkClientAuth()
+      await getFriends()
+    })()
   }, [])
 
-  const getFriends = async (): Promise<void> => {
+  const getFriends = async (): Promise<any> => {
     try{
-      await store.user.friends.map(({ friendId, _id }) => {
-        (async (friendId: string): Promise<void> => {
-          const response = await store.getFriend(friendId)
-          setFriends([response ? response : {} as IUser])
-        })(friendId)
-      })
-      setIsAuth(true)
+      if (store.user.friends.length != 0) {
+        store.user.friends.map(({ friendId, _id }, value) => {
+          (async (friendId: string): Promise<void> => {
+            const response = await store.getFriend(friendId)
+            const newFriends: Array<any> = friends
+            newFriends.push(response)
+            setFriends(newFriends)
+            console.log(value, store.user.friends.length)
+            if (value === store.user.friends.length - store.user.friends.length) {
+              setIsAuth(true)
+            }
+          })(friendId)
+        })
+      } else {
+        setIsAuth(true)
+      }
     } catch(e){
       console.log(e)
     }
@@ -69,17 +82,7 @@ const Profile: FC = () => {
     }
   }
 
-  БЕСКОНЕЧНЫЙ ЦИКЛ ЗАПРОСА ДРУЗЕЙ 
-  В СПИСОК ВСЕХ ДРУЗЕЙ ДОБАВЛЯЕТСЯ ТОЛЬКО ПОСЛЕДНИЙ, НУЖНО ЧТОБЫ ОНИ ПЛЮСОВАЛИСЬ
-
   const checkClientAuth = async (): Promise<void> => {await store.checkAuth()}
-  if (router.query !== undefined) {
-    (async () => {
-      await checkClientAuth()
-      getFriends()
-    })()
-  } 
-
 
   return (
     <>
@@ -102,15 +105,15 @@ const Profile: FC = () => {
             <div className={styles['about-users']}>
               <h2 className={styles['users-title']}>Друзья</h2>
               <ul className={styles['users-list']}>
-                {friends.map(({ _id, avatarPath, firstName }: IUser, value: any) => {
-                  console.log(firstName)
-                  if (_id === store.user.id) return null
+                {friends.length == 0 && (<h1 style={{whiteSpace: "nowrap"}}>У вас нет друзей :(</h1>)}
+                {friends.map(({ id, avatarPath, firstName }: IUser, value: any) => {
+                  if (id === store.user.id) return null
                   if (value === friends.length - 1){
                     store.setLoading(false)
                   }
                   if (value <= 14 || isMore) {
                     return (
-                      <a href={`/users/${_id}`} key={value} className={styles['users-item']}>
+                      <a href={`/users/${id}`} key={value} className={styles['users-item']}>
                         <img src={avatarPath || `${APP_URL}/common/defaultAvatar.jpg`} className={styles['item-img']} alt="" />
                         <h2 className={styles['item-name']}>{firstName}</h2>
                       </a>
