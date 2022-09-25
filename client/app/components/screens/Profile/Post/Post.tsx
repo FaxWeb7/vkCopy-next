@@ -17,16 +17,16 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const router = useRouter()
 
   const changeLikes = async (): Promise<void> => {
-    const userId = store.user.id
+    const userId = router.query.id
     if (!isLikeActive){
       setIsLikeActive(true)
       await store.addLike(userId, _id)
-      await router.push(`/profile/${store.user.id}`)
+      await router.push(router.asPath)
     }
     if (isLikeActive){
       setIsLikeActive(false)
       await store.deleteLike(userId, _id)
-      await router.push(`/profile/${store.user.id}`)
+      await router.push(router.asPath)
     }
   }
 
