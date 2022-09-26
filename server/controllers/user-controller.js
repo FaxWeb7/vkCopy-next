@@ -168,6 +168,17 @@ class UserController {
       next(e)
     }
   }
+
+  async deleteComment(req, res, next){
+    try{
+      const id = req.params.id
+      const {postId, commentId} = req.body
+      const userData = await userService.deleteComment(id, postId, commentId)
+      return res.json(userData)
+    } catch(e){
+      next(e)
+    }
+  }
 }
 
 module.exports = new UserController();

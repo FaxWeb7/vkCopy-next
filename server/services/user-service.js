@@ -251,6 +251,26 @@ class UserService {
     const userDto = new UserDto(user)
     return userDto
   }
+
+  async deleteComment (id, postId, commentId) {
+    const user = await Users.findById(id)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    user.posts.map(({_id}, value) => {
+      if (_id == postId){
+        const posts = user.posts[value]
+        posts.comments.map(({_id}, value) => {
+          if (_id == commentId){
+            posts.comments.splice(posts.comments[value], 1)
+          }
+        })
+      }
+    })
+    await user.save()
+    const userDto = new UserDto(user)
+    return userDto
+  }
 }
 
 module.exports = new UserService();

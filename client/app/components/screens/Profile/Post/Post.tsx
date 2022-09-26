@@ -5,7 +5,7 @@ import { MdOutlineMoreHoriz } from 'react-icons/md'
 import { FaRegCommentAlt } from 'react-icons/fa'
 import { Context } from '../../../../../pages/_app';
 import { IComment, IPost } from '@/types/interfaces';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 
 const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const [isLikeActive, setIsLikeActive] = useState<boolean>(false)
@@ -19,42 +19,18 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const [emptyComment, setEmptyComment] = useState<boolean>(false)
   const {store} = useContext(Context)
   const router = useRouter()
-
-  // const commentss: Array<any> = [
-  //   {
-  //     avatarPath: `${APP_URL}/avatars/defaultAvatar.jpg`,
-  //     firstName: 'Артем',
-  //     lastName: 'Павьвски',
-  //     text: 'asdasadsadsasddsaads',
-  //     date: '03.09.2022'
-  //   },
-  //   {
-  //     avatarPath: `${APP_URL}/avatars/defaultAvatar.jpg`,
-  //     firstName: 'Артем',
-  //     lastName: 'Павьвски',
-  //     text: 'asdasadsadsasddsaads',
-  //     date: '03.09.2022'
-  //   },
-  //   {
-  //     avatarPath: `${APP_URL}/avatars/defaultAvatar.jpg`,
-  //     firstName: 'Артем',
-  //     lastName: 'Павьвски',
-  //     text: 'asdasadsadsasddsaads',
-  //     date: '03.09.2022'
-  //   },
-  // ]
-
+  
   const changeLikes = async (): Promise<void> => {
     const userId = router.query.id
     if (!isLikeActive){
       setIsLikeActive(true)
       await store.addLike(userId, _id)
-      await router.push(router.asPath)
+      window.location.reload()
     }
     if (isLikeActive){
       setIsLikeActive(false)
       await store.deleteLike(userId, _id)
-      await router.push(router.asPath)
+      window.location.reload()
     }
   }
 
@@ -67,7 +43,6 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const getFriend = async (): Promise<void> => {
     await store.getSecondUser(router.query.id)
     setAvatarPaths(store.secondUser.avatarPath)
-    setPosts(store.secondUser.posts)
     setName(`${store.secondUser.firstName} ${store.secondUser.lastName}`)
     setIsAuth(true)
   }
@@ -75,7 +50,7 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const handleComment = async (): Promise<void> => {
     if (commentValue !== '') {
       await store.addComment(router.query.id, store.user.id, commentValue, _id)
-      router.push(router.asPath)
+      window.location.reload()
       setCommentValue('')
     } else{
       setEmptyComment(true)
@@ -156,3 +131,7 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
 }
 
 export default Post;
+
+
+// СБРОСИТЬ ПОСТЫ ПОЛЬЗОВАТЕЛЯ ARTEM3 
+// РЕАЛИЗОВАТЬ УДАЛЕНИЕ КОММЕНТОВ

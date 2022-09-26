@@ -18,6 +18,7 @@ router.post('/deletelike/:id', UserController.deleteLike);
 router.post('/addfriend/:id', UserController.addFriend);
 router.post('/deletefriend/:id', UserController.deleteFriend);
 router.post('/addcomment/:id', UserController.addComment);
+router.post('/deletecomment/:id', UserController.deleteComment);
 
 module.exports = router;
 
