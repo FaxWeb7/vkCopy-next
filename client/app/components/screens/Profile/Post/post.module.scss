@@ -75,7 +75,13 @@
     color: #939393;
     transition: all .3s ease;
     &.active{
-      color: rgb(221, 0, 0);
+      color: rgb(200, 0, 0);
+    }
+  }
+  .comments-img{
+    transition: all .3s ease;
+    &.active{
+      color: rgb(150, 0, 0);
     }
   }
   .change-item{
@@ -104,6 +110,125 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
+  }
+  .comments{
+    display: flex;
+    flex-direction: column!important;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .comments-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 15px;
+    position: relative;
+  }
+  .comments-item{
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 3px;
+  }
+  .item-content{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .item-avatar{
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+  }
+  .item-data{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 2.5px;
+  }
+  .item-name{
+    font-size: 12.5px;
+  }
+  .item-text{
+    font-size: 13px;
+  }
+  .item-date{
+    font-size: 12px;
+    color: #828282;
+    margin-top: 3px;
+  }
+  .postform{
+    background-color: #1A1D20;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .img{
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    .input{
+      margin-left: 12px; 
+      background-color: $grey;
+      outline: none;
+      width: 100%;
+      border: none;
+      color: #fff;
+    }
+    .image-wrapper{
+      position: relative;
+      border: none;
+      border-radius: 10px;
+      height: 40px;
+      padding: 0 10px;
+      color: white;
+      background: transparent;
+      margin-left: auto;
+    }
+    .image-input{
+      padding-top: 9px;
+      opacity: 0;
+      cursor: pointer;
+      position: absolute;
+      width: 20px;
+      left: 10px;
+      top: 0px;
+    }
+    .image-span{
+      color: #fff;
+      position: absolute;
+      border: 2px solid $lightGrey;
+      border-radius: 6px;
+      padding: 1px 5px;
+      left: 7px;
+      top: 8px;
+      cursor: pointer;
+    }
+    .btn{
+      margin-left: 20px;
+      color: #fff;
+      background-color: $btnGrey;
+      padding: 5px 12px;
+      border-radius: 6px;
+      transition: all .3s ease;
+      &:hover{
+        background-color: $btnLightGrey;
+      }
+    }
+  }
+  .line{
+    background-color: #2C2C30;
+    width: 100%;
+    height: 1px;  
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
 }
 

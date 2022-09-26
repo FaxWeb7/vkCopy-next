@@ -4,17 +4,44 @@ import styles from './post.module.scss'
 import { MdOutlineMoreHoriz } from 'react-icons/md'
 import { FaRegCommentAlt } from 'react-icons/fa'
 import { Context } from '../../../../../pages/_app';
-import { IPost } from '@/types/interfaces';
+import { IComment, IPost } from '@/types/interfaces';
 import { useRouter } from 'next/router';
 
 const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const [isLikeActive, setIsLikeActive] = useState<boolean>(false)
   const [isMore, setIsMore] = useState<boolean>(false)
   const [isAuth, setIsAuth] = useState<boolean>(false)
+  const [isComment, setIsComment] = useState<boolean>(false)
   const [avatarPath, setAvatarPath] = useState<string>('')
   const [name, setName] = useState<string>('')
+  const [commentValue, setCommentValue] = useState<string>('')
+  const [emptyComment, setEmptyComment] = useState<boolean>(false)
   const {store} = useContext(Context)
   const router = useRouter()
+
+  // const commentss: Array<any> = [
+  //   {
+  //     avatarPath: `${APP_URL}/avatars/defaultAvatar.jpg`,
+  //     firstName: 'Артем',
+  //     lastName: 'Павьвски',
+  //     text: 'asdasadsadsasddsaads',
+  //     date: '03.09.2022'
+  //   },
+  //   {
+  //     avatarPath: `${APP_URL}/avatars/defaultAvatar.jpg`,
+  //     firstName: 'Артем',
+  //     lastName: 'Павьвски',
+  //     text: 'asdasadsadsasddsaads',
+  //     date: '03.09.2022'
+  //   },
+  //   {
+  //     avatarPath: `${APP_URL}/avatars/defaultAvatar.jpg`,
+  //     firstName: 'Артем',
+  //     lastName: 'Павьвски',
+  //     text: 'asdasadsadsasddsaads',
+  //     date: '03.09.2022'
+  //   },
+  // ]
 
   const changeLikes = async (): Promise<void> => {
     const userId = router.query.id
@@ -43,6 +70,16 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
     setIsAuth(true)
   }
 
+  const handleComment = async (): Promise<void> => {
+    if (commentValue !== '') {
+      // await store.addComment()
+      // router.push(`/profile/${store.user.id}`)
+      setCommentValue('')
+    } else{
+      setEmptyComment(true)
+    }
+  }
+
   if (router.query !== undefined) {
     (async (): Promise<void> => {
       await checkClientAuth()
@@ -61,7 +98,7 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
               <h2 className={styles['post-name']}>{name || `${store.user.firstName} ${store.user.lastName}`}</h2>
               <h2 className={styles['post-time']}>{date}</h2>
             </div>
-            <button className={styles['post-more']} onClick={() => setIsMore(!isMore)}><MdOutlineMoreHoriz /></button>
+            {router.pathname[2] === 'r' && <button className={styles['post-more']} onClick={() => setIsMore(!isMore)}><MdOutlineMoreHoriz /></button>}
           </div>
           {isMore && (
             <div className={isMore ? `${styles['post-change']} ${styles['active']}` : styles['post-change']} onClick={() => deletePost()}>
@@ -80,10 +117,36 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
               <h2 className={styles['likes-num']}>{likes}</h2>
             </div>
             <div className={styles['post-comments']}>
-              <FaRegCommentAlt className={styles['comments-img']} />
+              <FaRegCommentAlt className={isComment ? `${styles['comments-img']} ${styles.active}` : styles['comments-img']}  onClick={() => setIsComment(!isComment)}/>
               <h2 className={styles['comments-num']}>{comments.length}</h2>
             </div>
           </div>
+          {isComment && (
+            <div className={styles['comments']}>
+              <div className={styles.postform}>
+                <img src={store.user.avatarPath} alt="" className={styles.img} />
+                <input className={styles.input} value={commentValue} onChange={(e) => setCommentValue(e.target.value)} placeholder={emptyComment ? 'Это поле обязательно!' : 'Комментарий к посту'} />
+                <button className={styles.btn} onClick={() => handleComment()}>Опубликовать</button>
+              </div>
+              <div className={styles.line}></div>
+              <ul className={styles['comments-list']}>
+                {comments.map(({ avatarPath, firstName, lastName, text, date } : IComment, value: number) => {
+                  return(
+                    <li key={value} className={styles['comments-item']}>
+                      <div className={styles['item-content']}>
+                        <img className={styles['item-avatar']} src={avatarPath} alt="" />
+                        <div className={styles['item-data']}>
+                          <h3 className={styles['item-name']}>{firstName} {lastName}</h3>
+                          <p className={styles['item-text']}>{text}</p>
+                          <div className={styles['item-date']}>{date}</div>
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </>

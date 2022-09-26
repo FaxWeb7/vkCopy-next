@@ -1,3 +1,11 @@
+export interface IComment {
+  avatarPath: string;
+  firstName: string;
+  lastName: string;
+  text: string;
+  date: string;
+}
+
 export interface IPost {
   _id: string;
   text: string;

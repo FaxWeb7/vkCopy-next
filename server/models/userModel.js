@@ -19,7 +19,15 @@ const UserSchema = new Schema({
       text: {type: String, required: false},
       image: {type: String, required: false},
       likes: {type: Number, required: false, default: 0},
-      comments: {type: Array, required: false, default: []},
+      comments: [
+        {
+          avatarPath: {type: String, required: false},
+          firstName: {type: String, required: false},
+          lastName: {type: String, required: false},
+          text: {type: String, required: false},
+          date: {type: String, required: false, default: `${new Date().getDate()}.${new Date().getMonth()}.${new Date().getFullYear()}`}
+        }
+      ],
       date: {type: String, required: false, default: `${new Date().getDate()}.${new Date().getMonth()}.${new Date().getFullYear()}`}
     }
   ]

@@ -224,6 +224,18 @@ class UserService {
     const friendDto = new UserDto(friend)
     return {userDto, friendDto}
   }
+
+  async addComment (id, text) {
+    const user = await Users.findById(id)
+    if (!user){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    user.posts.unshift({"text": `${text}`, "image": `${image}`})
+    user.posts.comments.unshift
+    await user.save()
+    const userDto = new UserDto(user)
+    return userDto
+  }
 }
 
 module.exports = new UserService();

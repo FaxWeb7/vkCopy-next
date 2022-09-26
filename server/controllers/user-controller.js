@@ -157,6 +157,17 @@ class UserController {
       next(e)
     }
   }
+
+  async addComment(req, res, next){
+    try{
+      const id = req.params.id
+      const {text} = req.body
+      const userData = await userService.addComment(id, text)
+      return res.json(userData)
+    } catch(e){
+      next(e)
+    }
+  }
 }
 
 module.exports = new UserController();
