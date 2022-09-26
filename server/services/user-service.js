@@ -225,13 +225,28 @@ class UserService {
     return {userDto, friendDto}
   }
 
-  async addComment (id, text) {
+  async addComment (id, authorId, text, postId) {
     const user = await Users.findById(id)
     if (!user){
       throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
     }
-    user.posts.unshift({"text": `${text}`, "image": `${image}`})
-    user.posts.comments.unshift
+    const author = await Users.findById(authorId)
+    if (!author){
+      throw ApiError.BadRequest(`Пользователь ещё не зарегистрирован`)
+    }
+    user.posts.map(({_id}, value) => {
+      if (_id == postId){
+        user.posts[value].comments.unshift(
+          {
+            "avatarPath": `${author.avatarPath}`,
+            "firstName": `${author.firstName}`,
+            "lastName": `${author.lastName}`,
+            "text": `${text}`
+          }
+        )
+      }
+    })
+    
     await user.save()
     const userDto = new UserDto(user)
     return userDto

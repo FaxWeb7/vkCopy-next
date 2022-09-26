@@ -1,4 +1,5 @@
 export interface IComment {
+  _id: string;
   avatarPath: string;
   firstName: string;
   lastName: string;

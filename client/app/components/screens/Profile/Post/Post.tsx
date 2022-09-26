@@ -12,8 +12,9 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const [isMore, setIsMore] = useState<boolean>(false)
   const [isAuth, setIsAuth] = useState<boolean>(false)
   const [isComment, setIsComment] = useState<boolean>(false)
-  const [avatarPath, setAvatarPath] = useState<string>('')
+  const [avatarPaths, setAvatarPaths] = useState<string>('')
   const [name, setName] = useState<string>('')
+  const [posts, setPosts] = useState<any>('')
   const [commentValue, setCommentValue] = useState<string>('')
   const [emptyComment, setEmptyComment] = useState<boolean>(false)
   const {store} = useContext(Context)
@@ -65,15 +66,16 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const checkClientAuth = async (): Promise<void> => {await store.checkAuth()}
   const getFriend = async (): Promise<void> => {
     await store.getSecondUser(router.query.id)
-    setAvatarPath(store.secondUser.avatarPath)
+    setAvatarPaths(store.secondUser.avatarPath)
+    setPosts(store.secondUser.posts)
     setName(`${store.secondUser.firstName} ${store.secondUser.lastName}`)
     setIsAuth(true)
   }
 
   const handleComment = async (): Promise<void> => {
     if (commentValue !== '') {
-      // await store.addComment()
-      // router.push(`/profile/${store.user.id}`)
+      await store.addComment(router.query.id, store.user.id, commentValue, _id)
+      router.push(router.asPath)
       setCommentValue('')
     } else{
       setEmptyComment(true)
@@ -93,7 +95,7 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
       (
         <div className={styles.post}>
           <div className={styles['post-info']}>
-            <img src={avatarPath || store.user.avatarPath || `${APP_URL}/common/defaultAvatar.jpg`} alt="" className={styles['post-avatar']} />
+            <img src={avatarPaths || store.user.avatarPath || `${APP_URL}/common/defaultAvatar.jpg`} alt="" className={styles['post-avatar']} />
             <div className={styles['post-info-content']}>
               <h2 className={styles['post-name']}>{name || `${store.user.firstName} ${store.user.lastName}`}</h2>
               <h2 className={styles['post-time']}>{date}</h2>

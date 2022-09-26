@@ -161,8 +161,8 @@ class UserController {
   async addComment(req, res, next){
     try{
       const id = req.params.id
-      const {text} = req.body
-      const userData = await userService.addComment(id, text)
+      const {authorId, text, postId} = req.body
+      const userData = await userService.addComment(id, authorId, text, postId)
       return res.json(userData)
     } catch(e){
       next(e)

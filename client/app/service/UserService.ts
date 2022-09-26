@@ -33,4 +33,7 @@ export default class UserService {
   static deleteFriend (id: string | undefined | string[], friendId: string | undefined | string[]): Promise<AxiosResponse<IUser[]>>{
     return $api.post<IUser[]>(`/deletefriend/${id}`, {friendId})
   }
+  static addComment (id: string | undefined | string[], authorId: string | undefined | string[], text: string, postId: string): Promise<AxiosResponse<IUser>>{
+    return $api.post<IUser>(`/addcomment/${id}`, {authorId, text, postId})
+  }
 }

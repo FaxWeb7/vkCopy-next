@@ -164,4 +164,13 @@ export default class Store {
       console.log(e?.response?.data?.message)
     }
   }
+
+  async addComment (id: string | undefined | string[], authorId: string | undefined | string[], text: string, postId: string){
+    try{
+      const response = await UserService.addComment(id, authorId, text, postId);
+      this.setUser(response.data)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
 }
