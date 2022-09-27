@@ -131,7 +131,3 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
 }
 
 export default Post;
-
-
-// СБРОСИТЬ ПОСТЫ ПОЛЬЗОВАТЕЛЯ ARTEM3 
-// РЕАЛИЗОВАТЬ УДАЛЕНИЕ КОММЕНТОВ

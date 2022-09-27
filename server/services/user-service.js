@@ -262,7 +262,7 @@ class UserService {
         const posts = user.posts[value]
         posts.comments.map(({_id}, value) => {
           if (_id == commentId){
-            posts.comments.splice(posts.comments[value], 1)
+            posts.comments.splice(value, 1)
           }
         })
       }
