@@ -173,4 +173,13 @@ export default class Store {
       console.log(e?.response?.data?.message)
     }
   }
+
+  async deleteComment (id: string | undefined | string[], postId: string, commentId: string){
+    try{
+      const response = await UserService.deleteComment(id, postId, commentId);
+      this.setSecondUser(response.data)
+    } catch(e: any){
+      console.log(e?.response?.data?.message)
+    }
+  }
 }

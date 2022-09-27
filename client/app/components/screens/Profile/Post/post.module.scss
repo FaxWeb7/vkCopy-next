@@ -116,6 +116,7 @@
     flex-direction: column!important;
     justify-content: flex-start;
     align-items: flex-start;
+    width: 100%;
   }
   .comments-list{
     display: flex;
@@ -156,6 +157,8 @@
   }
   .item-text{
     font-size: 13px;
+    word-wrap: break-word;
+    max-width: 400px;
   }
   .item-date{
     font-size: 12px;

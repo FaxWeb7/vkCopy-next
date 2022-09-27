@@ -1,0 +1,25 @@
+@import '../../../../styles/vars';
+
+.post{
+  &-more{
+    margin-left: auto;
+    background-color: transparent;
+    color: $btnLightGrey;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  &-change{
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    gap: 12px;
+    cursor: pointer;
+    background-color: $btnLightGrey;
+    padding: 8px;
+    right: 0; 
+    top: 50px;
+    &.active{
+      animation: fadeIn .5s;
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { FaRegCommentAlt } from 'react-icons/fa'
 import { Context } from '../../../../../pages/_app';
 import { IComment, IPost } from '@/types/interfaces';
 import { Router, useRouter } from 'next/router';
+import DeleteComment from '../DeleteComment/DeleteComment';
 
 const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const [isLikeActive, setIsLikeActive] = useState<boolean>(false)
@@ -14,11 +15,11 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const [isComment, setIsComment] = useState<boolean>(false)
   const [avatarPaths, setAvatarPaths] = useState<string>('')
   const [name, setName] = useState<string>('')
-  const [posts, setPosts] = useState<any>('')
   const [commentValue, setCommentValue] = useState<string>('')
   const [emptyComment, setEmptyComment] = useState<boolean>(false)
   const {store} = useContext(Context)
   const router = useRouter()
+  const postId = _id;
   
   const changeLikes = async (): Promise<void> => {
     const userId = router.query.id
@@ -107,7 +108,7 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
               </div>
               <div className={styles.line}></div>
               <ul className={styles['comments-list']}>
-                {comments.map(({ avatarPath, firstName, lastName, text, date } : IComment, value: number) => {
+                {comments.map(({ avatarPath, firstName, lastName, text, date, _id } : IComment, value: number) => {
                   return(
                     <li key={value} className={styles['comments-item']}>
                       <div className={styles['item-content']}>
@@ -117,6 +118,7 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
                           <p className={styles['item-text']}>{text}</p>
                           <div className={styles['item-date']}>{date}</div>
                         </div>
+                        <DeleteComment postId={postId} commentId={_id}/>
                       </div>
                     </li>
                   )
