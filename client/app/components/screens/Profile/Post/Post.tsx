@@ -118,7 +118,7 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
                           <p className={styles['item-text']}>{text}</p>
                           <div className={styles['item-date']}>{date}</div>
                         </div>
-                        {firstName == store.user.firstName && <DeleteComment postId={postId} commentId={_id}/>}
+                        {firstName == store.user.firstName && lastName == store.user.lastName && avatarPath == store.user.avatarPath ? <DeleteComment postId={postId} commentId={_id}/> : null}
                       </div>
                     </li>
                   )
