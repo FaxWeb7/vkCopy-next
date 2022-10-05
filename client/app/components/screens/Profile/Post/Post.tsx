@@ -22,7 +22,6 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const postId = _id;
   const [localUser, setLocalUser] = useState<IPost>({text: text, image: image, likes: likes, comments: comments, date: date, _id: _id})
   var prevLocalUser = localUser
-  // const [likess, setLikes] = useState<number>(likes)
   
   const changeLikes = async (): Promise<void> => {
     const userId = router.query.id

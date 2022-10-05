@@ -14,12 +14,12 @@ const User: FC<{user: IUser}> = ({ user }) => {
 
   const addFriend = async (): Promise<void> => {
     await store.addFriend(store.user.id, router.query.id)
-    await router.push(`/users/${router.query.id}`)
+    setIsFriend(true)
   }
 
   const deleteFriend = async (): Promise<void> => {
     await store.deleteFriend(store.user.id, router.query.id)
-    await router.push(`/users/${router.query.id}`)
+    setIsFriend(false)
   }
 
   if (router.query.id !== undefined ) {

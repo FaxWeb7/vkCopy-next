@@ -11,7 +11,7 @@ const DeleteComment: FC<{postId: string, commentId: string}> = ({ postId, commen
 
   const deleteComment = async (): Promise<void> => {
     await store.deleteComment(router.query.id, postId, commentId)
-    window.location.reload()
+    router.asPath[1] === 'p' ? router.push(`/profile/${router.query.id}`) : router.push(`/users/${router.query.id}`)
   }
 
   return (
