@@ -26,30 +26,32 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
   const changeLikes = async (): Promise<void> => {
     const userId = router.query.id
     if (!isLikeActive){
-      setIsLikeActive(true)
       await store.addLike(userId, _id)
       if (router.asPath[1] === 'p'){
-        router.push(`/profile/${userId}`)
+        await router.push(`/profile/${userId}`)
+        prevLocalUser.likes = prevLocalUser.likes + 1
+        setLocalUser(prevLocalUser)
       }
       if (router.asPath[1] === 'u'){
         await router.push(`/users/${userId}`)
         prevLocalUser.likes = prevLocalUser.likes + 1
         setLocalUser(prevLocalUser)
-        router.push(`/users/${userId}`)
       }
+      setIsLikeActive(true)
     }
     if (isLikeActive){
-      setIsLikeActive(false)
       await store.deleteLike(userId, _id)
       if (router.asPath[1] === 'p'){
-        router.push(`/profile/${userId}`)
+        await router.push(`/profile/${userId}`)
+        prevLocalUser.likes = prevLocalUser.likes - 1
+        setLocalUser(prevLocalUser)
       }
       if (router.asPath[1] === 'u'){
         await router.push(`/users/${userId}`)
         prevLocalUser.likes = prevLocalUser.likes - 1
         setLocalUser(prevLocalUser)
-        router.push(`/users/${userId}`)
       }
+      setIsLikeActive(false)
     }
   }
 
@@ -73,10 +75,7 @@ const Post: FC<IPost> = ({ text, image, likes, comments, date, _id }) => {
         await router.push(`/profile/${store.user.id}`)
       }
       if (router.asPath[1] === 'u'){
-        await router.push(`/users/${router.query.id}`)
-        prevLocalUser.comments = 
-        setLocalUser(prevLocalUser)
-        router.push(`/users/${router.query.id}`)
+        window.location.reload()
       }
       setCommentValue('')
     } else{

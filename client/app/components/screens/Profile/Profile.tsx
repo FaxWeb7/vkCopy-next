@@ -16,6 +16,7 @@ const Profile: FC = () => {
   const [isMore, setIsMore] = useState<boolean>(false)
   const [isAuth, setIsAuth] = useState<boolean>(false)
   const [fileReader, setFileReader] = useState<any>()
+  const [isSecondAuth, setIsSecondAuth] = useState<boolean>(true)
   const [inputValue, setInputValue] = useState<string>('')
   const [image, setImage] = useState<string>('')
   const [friends, setFriends] = useState<Array<IUser>>([])
@@ -23,15 +24,14 @@ const Profile: FC = () => {
   const [submitActive, setSubmitActive] = useState<boolean>(false)
   const [avatar, setAvatar] = useState<string>(`${APP_URL}/common/defaultAvatar.jpg`)
   const router = useRouter()
-
+  
   useEffect(() => {
     (async () => {
-      await setFileReader(new FileReader())
+      setFileReader(new FileReader())
       await checkClientAuth()
-      await getFriends()
     })()
   }, [])
-
+  
   const getFriends = async (): Promise<any> => {
     try{
       if (store.user.friends.length != 0) {
@@ -41,7 +41,6 @@ const Profile: FC = () => {
             const newFriends: Array<any> = friends
             newFriends.push(response)
             setFriends(newFriends)
-            console.log(value, store.user.friends.length)
             if (value === store.user.friends.length - store.user.friends.length) {
               setIsAuth(true)
             }
@@ -54,7 +53,7 @@ const Profile: FC = () => {
       console.log(e)
     }
   }
-
+  
   const handleOnChange = async (event: any, s?: boolean): Promise<void> => {
     event.preventDefault();
     const file = await event.target.files[0];
@@ -80,6 +79,11 @@ const Profile: FC = () => {
     } else{
       setEmpty(true)
     }
+  }
+
+  if (router.query.id !== undefined && isSecondAuth) {
+    getFriends()
+    setIsSecondAuth(false)
   }
 
   const checkClientAuth = async (): Promise<void> => {await store.checkAuth()}
@@ -121,8 +125,7 @@ const Profile: FC = () => {
                   }
                   })}
               </ul>
-                {/* {store.isLoading && <h1 className={styles['users-loading']}>Загрузка...</h1>} */}
-              {/* <h2 className={styles['users-more']} onClick={() => setIsMore(!isMore)}>{users.length <= 15 ? '' : !isMore ? 'Показать больше' : 'Показать меньше'}</h2> */}
+              <h2 className={styles['users-more']} onClick={() => setIsMore(!isMore)}>{friends.length <= 15 ? '' : !isMore ? 'Показать больше' : 'Показать меньше'}</h2> 
             </div>
           </div>
           <div className={styles.content}>
